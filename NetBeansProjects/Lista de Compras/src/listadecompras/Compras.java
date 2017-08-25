@@ -1,5 +1,6 @@
 package listadecompras;
-
+//Resolver Bug da troca de qnt
+//resolver but do preco
 //Utilidades
 import java.util.ArrayList;
 
@@ -40,6 +41,7 @@ public class Compras {
     JFrame janelaTudo = new JFrame("Compras do mês");
     JButton btAdd = new JButton();
     JButton btVoltar = new JButton();
+    JButton btSalvar = new JButton();
     JButton btAtualizar = new JButton();
     JLabel lbMes = new JLabel(); 
     JScrollPane scrollFundo = new JScrollPane();
@@ -74,7 +76,7 @@ public class Compras {
         //Nas três linhas seguintes, o programa coleta o nome, a unidade de compra e o local de compra do produto
         String nome = JOptionPane.showInputDialog("Digite o nome do produto");
         String unidadeDeCompra = JOptionPane.showInputDialog("Digite a unidade do produto\n(Ex.: Kg, g, L)");
-        String localDeCompra = JOptionPane.showInputDialog("Digite o local aonde você fez a compra");
+        String localDeCompra = JOptionPane.showInputDialog("Digite o local onde você fez a compra");
         
 
         String recebeNum;// Essa string vai armazenar os dados que o "JOptionPane()" retorna para
@@ -201,9 +203,25 @@ public class Compras {
         janelaTudo.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         janelaTudo.setResizable(false);
         
+        btSalvar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgSalvar.png")));
+        btSalvar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evento) {
+                verificarAlterações();
+            }
+        });
         
+        btAtualizar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgAtualizar.png"))); // NOI18N
+        btAtualizar.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evento) {
+                    int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa operação?\nDados editados serão perdidos.");
+                    if(op == 0)
+                        atualizarDados();
+                }
+        });
         
-        btVoltar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/if_left_16_22592 (3).png"))); // NOI18N
+        btVoltar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgVoltar.png"))); // NOI18N
         btVoltar.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent evento) {
@@ -215,7 +233,7 @@ public class Compras {
         
         scrollFundo.setViewportView(tabela);
 
-        btAdd.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/if_plus_16_22608 (3).png"))); // NOI18N
+        btAdd.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgAdd.png"))); // NOI18N
         btAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evento) {
@@ -234,7 +252,12 @@ public class Compras {
                 .addComponent(btVoltar)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btAdd)
+                .addContainerGap()
+                .addComponent(btSalvar)
+                .addContainerGap()
+                .addComponent(btAtualizar)
                 .addContainerGap())
+
             .addComponent(scrollFundo, GroupLayout.DEFAULT_SIZE, 562, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -244,7 +267,9 @@ public class Compras {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addComponent(lbMes)
                     .addComponent(btVoltar)
-                    .addComponent(btAdd))
+                    .addComponent(btAdd)
+                    .addComponent(btSalvar)
+                    .addComponent(btAtualizar))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(scrollFundo, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE))
         );
