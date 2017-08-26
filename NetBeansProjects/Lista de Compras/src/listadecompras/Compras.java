@@ -7,7 +7,6 @@ import java.util.ArrayList;
 //Interface Gráfica
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.GroupLayout;
@@ -21,6 +20,7 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+
 //Look and Fell
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -31,11 +31,16 @@ public class Compras {
      *a classe compras se relaciona com multiplos produtos
      *Uma compra tem n produtos
      */
-    
     //atributos da Classe compra
     String mes;
     ArrayList <Produto> produto = new ArrayList <> ();
     float precoTotal;
+
+    //Construtor
+    public Compras (String mes) {
+        this.mes = mes;
+    }
+    
     //Elementos da janela que exibe todos os produtos
     JFrame janelaTudo = new JFrame("Compras do mês");
     JButton btAdd = new JButton();
@@ -45,7 +50,6 @@ public class Compras {
     JLabel lbMes = new JLabel(); 
     JScrollPane scrollFundo = new JScrollPane();
     JTable tabela = new JTable();
-    
     
     boolean voltar = false;
 
@@ -141,28 +145,33 @@ public class Compras {
         int i;
         precoTotal = 0;
         String msgFormat;
-        String a[] = new String [6];
+        String a[] = new String [7];
         a[0] = "Produto";
         a[1] = "Unidade de Compra";
         a[2] = "Local";
         a[3] = "Quantidade";
         a[4] = "Preço";
         a[5] = "Tipo";
+        a[6] = "Deletar";
         
-        String b[][] = new String[produto.size()][6];
+        Object [][] dados = new Object[produto.size()][7];
         
         for(i = 0; i < produto.size(); i++) {
-            b[i][0] = produto.get(i).nome;
-            b[i][1] = produto.get(i).unidadeDeCompra;
-            b[i][2] = produto.get(i).localDeCompra;
-            b[i][3] = produto.get(i).getQntString();
-            b[i][4] = produto.get(i).getPrecoString();
-            b[i][5] = produto.get(i).getTipoString();
+            dados[i][0] = produto.get(i).nome;
+            dados[i][1] = produto.get(i).unidadeDeCompra;
+            dados[i][2] = produto.get(i).localDeCompra;
+            dados[i][3] = produto.get(i).getQntString();
+            dados[i][4] = produto.get(i).getPrecoString();
+            dados[i][5] = produto.get(i).getTipoString();
+            dados[i][6] = criarBotao(i);
+            
             precoTotal += produto.get(i).preco;
         }
+        
         msgFormat = String.format("Mês: %s  |  Total: R$ %.2f", mes, precoTotal);
         lbMes.setText(msgFormat);
-        Object [][] dados = b;
+        
+        
         tabela.setModel(new DefaultTableModel(dados, a));
     }
     
@@ -298,5 +307,21 @@ public class Compras {
 
         janelaTudo.pack();
         janelaTudo.setVisible(true);
+    }
+    
+    public void removerProduto(int i) {
+        produto.remove(i);
+    }
+    
+    public JButton criarBotao(int i){
+        JButton btExcluir = new JButton();
+        btExcluir.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgSalvar.png")));
+        btExcluir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evento) {
+                JOptionPane.showMessageDialog(null, i);
+            }
+        });
+        return btExcluir;
     }
 }
