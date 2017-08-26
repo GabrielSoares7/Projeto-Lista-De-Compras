@@ -1,6 +1,5 @@
 package listadecompras;
-//Resolver Bug da troca de qnt
-//resolver but do preco
+
 //Utilidades
 import java.util.ArrayList;
 
@@ -171,25 +170,48 @@ public class Compras {
         int i;
         int guardarInt = 0;
         float guardarFloat = 0;
+        String convert;
         int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo atualizar os dados?\nAs informações anteriores serão perdidas");
         if(op == 0) {
             for(i = 0; i < produto.size(); i++) {
+                    //guardando uns dados que serão utilizados posteriormentes
+                    guardarInt = produto.get(i).qnt;
+                    guardarFloat = produto.get(i).preco;
+                    
                     produto.get(i).nome = tabela.getValueAt(i, 0).toString();
                     produto.get(i).unidadeDeCompra = tabela.getValueAt(i, 1).toString();
                     produto.get(i).localDeCompra = tabela.getValueAt(i, 2).toString();
-                    try {
-                        guardarInt = produto.get(i).qnt;
-                        produto.get(i).alterarQnt(Integer.parseInt(tabela.getValueAt(i, 3).toString()));
-                    }catch (NumberFormatException erroConv){
-                        JOptionPane.showMessageDialog(null, "ERRO");
-                        produto.get(i).qnt = guardarInt;
+                    
+                    if(!produto.get(i).getQntString().equals(tabela.getValueAt(i, 3).toString())) {
+                        System.out.println(tabela.getValueAt(i, 3).toString());
+                        convert = JOptionPane.showInputDialog("Deseja alterar a quantidade?\nDigite um valor inteiro:");
+
+                        try {
+                            produto.get(i).alterarQnt(Integer.parseInt(convert));
+                        }
+                        catch (NumberFormatException erroConv) {
+                            JOptionPane.showMessageDialog(null, "O número digitado é inválido");
+                            produto.get(i).qnt = guardarInt;
+                        }
+                        catch (NullPointerException nulo) {
+                            produto.get(i).qnt = guardarInt;
+                        }
                     }
-                    try {
-                        guardarFloat = produto.get(i).preco;
-                        produto.get(i).preco = Float.parseFloat(tabela.getValueAt(i, 3).toString());
-                    }catch (NumberFormatException erroConv){
-                        JOptionPane.showMessageDialog(null, "ERRO");
-                        produto.get(i).preco = guardarFloat;
+                    if(guardarFloat == produto.get(i).preco) {
+                        if(!produto.get(i).getPrecoString().equals(tabela.getValueAt(i, 5).toString())) {
+                            guardarFloat = produto.get(i).preco;
+                            convert = JOptionPane.showInputDialog("Deseja alterar o preço?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)");
+                            try {
+                                produto.get(i).preco = Float.parseFloat(convert);
+                            }
+                            catch(NumberFormatException erroConv) {
+                                JOptionPane.showMessageDialog(null, "O número digitado é inválido");
+                                produto.get(i).preco = guardarFloat;
+                            }
+                            catch (NullPointerException nulo) {
+                                produto.get(i).preco = guardarFloat;
+                            }
+                        }
                     }
             }
             atualizarDados();

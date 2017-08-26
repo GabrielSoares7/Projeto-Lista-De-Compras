@@ -18,9 +18,14 @@ public class Produto {
         this.tipo = tipo;
     }
     
-    public void alterarQnt(int newQnt) {       
-        preco = (float) (newQnt * preco)/qnt;
+    public void alterarQnt(int newQnt) {
+        float oldPreco = preco;
+        preco = (float) (newQnt * oldPreco)/qnt;
         qnt = newQnt;
+        /* oldQnt ---- oldPreco
+         * newQnt ---- newPreco
+         * newPreco = oldPreco * newQnt/oldQnt
+        **/
     }
     
     public String getQntString() {
