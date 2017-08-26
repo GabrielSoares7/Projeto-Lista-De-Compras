@@ -16,10 +16,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ImageIcon;
+import javax.swing.JList;
+import javax.swing.JTextField;
+import javax.swing.AbstractListModel;
+import javax.swing.JPanel;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 
 //Look and Fell
 import javax.swing.UIManager;
@@ -47,9 +49,21 @@ public class Compras {
     JButton btVoltar = new JButton();
     JButton btSalvar = new JButton();
     JButton btAtualizar = new JButton();
+    JButton btExcluir = new JButton();
     JLabel lbMes = new JLabel(); 
     JScrollPane scrollFundo = new JScrollPane();
     JTable tabela = new JTable();
+    
+    //Elemento da janela que exibe e exclui os produtos
+    JFrame janelaExcluir = new JFrame("Excluir");
+    JPanel fundoJanelaExcluir = new JPanel();
+    JLabel lbMsg1 = new JLabel("Cod - Nome");
+    JScrollPane scrollRemover = new JScrollPane();
+    JList lista = new JList();
+    JButton btDeletar = new JButton();
+    JButton btFinalizar = new JButton();
+    JLabel lbMsg2 = new JLabel("Insira o código do produto\n");
+    JTextField entradaCod = new JTextField();
     
     boolean voltar = false;
 
@@ -64,7 +78,6 @@ public class Compras {
             System.out.print("");
         }
         janelaTudo.setVisible(false);
-        return;
     }
     
     public void addProduto() {
@@ -145,16 +158,15 @@ public class Compras {
         int i;
         precoTotal = 0;
         String msgFormat;
-        String a[] = new String [7];
+        String a[] = new String [6];
         a[0] = "Produto";
         a[1] = "Unidade de Compra";
         a[2] = "Local";
         a[3] = "Quantidade";
         a[4] = "Preço";
         a[5] = "Tipo";
-        a[6] = "Deletar";
         
-        Object [][] dados = new Object[produto.size()][7];
+        Object [][] dados = new Object[produto.size()][6];
         
         for(i = 0; i < produto.size(); i++) {
             dados[i][0] = produto.get(i).nome;
@@ -163,7 +175,6 @@ public class Compras {
             dados[i][3] = produto.get(i).getQntString();
             dados[i][4] = produto.get(i).getPrecoString();
             dados[i][5] = produto.get(i).getTipoString();
-            dados[i][6] = criarBotao(i);
             
             precoTotal += produto.get(i).preco;
         }
@@ -171,6 +182,22 @@ public class Compras {
         msgFormat = String.format("Mês: %s  |  Total: R$ %.2f", mes, precoTotal);
         lbMes.setText(msgFormat);
         
+        String strLista[] = new String[produto.size()];
+        for(i = 0; i < produto.size(); i++) {
+            strLista[i] = String.format("%d - %s", i, produto.get(i).nome);
+        }
+        
+        lista.setModel(new AbstractListModel<String>() {
+            String[] strings = strLista;
+            @Override
+            public int getSize() { 
+                return strLista.length; 
+            }
+            @Override
+            public String getElementAt(int i) {
+                return strings[i]; 
+            }
+        });
         
         tabela.setModel(new DefaultTableModel(dados, a));
     }
@@ -179,49 +206,51 @@ public class Compras {
         int i;
         int guardarInt = 0;
         float guardarFloat = 0;
-        String convert;
+        String convert, msg;
         int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo atualizar os dados?\nAs informações anteriores serão perdidas");
         if(op == 0) {
             for(i = 0; i < produto.size(); i++) {
-                    //guardando uns dados que serão utilizados posteriormentes
-                    guardarInt = produto.get(i).qnt;
-                    guardarFloat = produto.get(i).preco;
+                //guardando uns dados que serão utilizados posteriormentes
+                guardarInt = produto.get(i).qnt;
+                guardarFloat = produto.get(i).preco;
                     
-                    produto.get(i).nome = tabela.getValueAt(i, 0).toString();
-                    produto.get(i).unidadeDeCompra = tabela.getValueAt(i, 1).toString();
-                    produto.get(i).localDeCompra = tabela.getValueAt(i, 2).toString();
-                    
-                    if(!produto.get(i).getQntString().equals(tabela.getValueAt(i, 3).toString())) {
-                        System.out.println(tabela.getValueAt(i, 3).toString());
-                        convert = JOptionPane.showInputDialog("Deseja alterar a quantidade?\nDigite um valor inteiro:");
+                produto.get(i).nome = tabela.getValueAt(i, 0).toString();
+                produto.get(i).unidadeDeCompra = tabela.getValueAt(i, 1).toString();
+                produto.get(i).localDeCompra = tabela.getValueAt(i, 2).toString();
 
-                        try {
-                            produto.get(i).alterarQnt(Integer.parseInt(convert));
-                        }
-                        catch (NumberFormatException erroConv) {
-                            JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                            produto.get(i).qnt = guardarInt;
-                        }
-                        catch (NullPointerException nulo) {
-                            produto.get(i).qnt = guardarInt;
-                        }
+                try {
+                    if(!produto.get(i).getQntString().equals(tabela.getValueAt(i, 3).toString())) {
+                        msg = String.format("Deseja alterar a quantidade do produto %s?\nDigite um valor inteiro:", produto.get(i).nome);
+                        convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 3).toString());
+                        produto.get(i).alterarQnt(Integer.parseInt(convert));
                     }
+                }
+                catch (NumberFormatException erroConv) {
+                    JOptionPane.showMessageDialog(null, "O número digitado é inválido");
+                    produto.get(i).qnt = guardarInt;
+                }
+                catch (NullPointerException nulo) {
+                    produto.get(i).qnt = guardarInt;
+                }
+       
+                try {
                     if(guardarFloat == produto.get(i).preco) {
-                        if(!produto.get(i).getPrecoString().equals(tabela.getValueAt(i, 5).toString())) {
-                            guardarFloat = produto.get(i).preco;
-                            convert = JOptionPane.showInputDialog("Deseja alterar o preço?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)");
-                            try {
-                                produto.get(i).preco = Float.parseFloat(convert);
-                            }
-                            catch(NumberFormatException erroConv) {
-                                JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                                produto.get(i).preco = guardarFloat;
-                            }
-                            catch (NullPointerException nulo) {
-                                produto.get(i).preco = guardarFloat;
-                            }
+                        if(!produto.get(i).getPrecoString().equals(tabela.getValueAt(i, 4).toString())) {
+                            msg = String.format("Deseja alterar o preço do(a) %s?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)", produto.get(i).nome);
+                            convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 4));
+                            produto.get(i).preco = Float.parseFloat(convert);
                         }
                     }
+                }
+                catch(NumberFormatException erroConv) {
+                    JOptionPane.showMessageDialog(null, "O número digitado é inválido");
+                    produto.get(i).preco = guardarFloat;
+                }
+                catch (NullPointerException nulo) {
+                    produto.get(i).preco = guardarFloat;
+                }
+                        
+                    
             }
             atualizarDados();
         }
@@ -235,29 +264,25 @@ public class Compras {
         janelaTudo.setResizable(false);
         
         btSalvar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgSalvar.png")));
-        btSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evento) {
-                verificarAlterações();
-            }
+        btSalvar.addActionListener((ActionEvent evento) -> {
+            verificarAlterações();
+        });
+        
+        btExcluir.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgDeletar.png")));
+        btExcluir.addActionListener((ActionEvent evento) -> {
+            criarJanelaRemoverProduto();
         });
         
         btAtualizar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgAtualizar.png"))); // NOI18N
-        btAtualizar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evento) {
-                    int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa operação?\nDados editados serão perdidos.");
-                    if(op == 0)
-                        atualizarDados();
-                }
+        btAtualizar.addActionListener((ActionEvent evento) -> {
+            int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo realizar essa operação?\nDados editados serão perdidos.");
+            if(op == 0)
+                atualizarDados();
         });
         
         btVoltar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgVoltar.png"))); // NOI18N
-        btVoltar.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent evento) {
-                    voltar = true;
-                }
+        btVoltar.addActionListener((ActionEvent evento) -> {
+            voltar = true;
         });
         
         atualizarDados();
@@ -265,11 +290,8 @@ public class Compras {
         scrollFundo.setViewportView(tabela);
 
         btAdd.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgAdd.png"))); // NOI18N
-        btAdd.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evento) {
-                addProduto();
-            }
+        btAdd.addActionListener((ActionEvent evento) -> {
+            addProduto();
         });
         
         GroupLayout layout = new GroupLayout(janelaTudo.getContentPane());
@@ -283,6 +305,8 @@ public class Compras {
                 .addComponent(btVoltar)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btAdd)
+                .addContainerGap()
+                .addComponent(btExcluir)
                 .addContainerGap()
                 .addComponent(btSalvar)
                 .addContainerGap()
@@ -299,6 +323,7 @@ public class Compras {
                     .addComponent(lbMes)
                     .addComponent(btVoltar)
                     .addComponent(btAdd)
+                    .addComponent(btExcluir)
                     .addComponent(btSalvar)
                     .addComponent(btAtualizar))
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
@@ -310,18 +335,95 @@ public class Compras {
     }
     
     public void removerProduto(int i) {
-        produto.remove(i);
+        int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo remover o produto?");
+        if(op == 0) {
+            produto.remove(i);
+            atualizarDados();
+        }
     }
     
-    public JButton criarBotao(int i){
-        JButton btExcluir = new JButton();
-        btExcluir.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgSalvar.png")));
-        btExcluir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent evento) {
-                JOptionPane.showMessageDialog(null, i);
-            }
+    public void criarJanelaRemoverProduto() {
+        janelaTudo.setVisible(false);
+        
+        janelaExcluir.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        janelaExcluir.setLocationRelativeTo(null);
+        
+        atualizarDados();
+        scrollRemover.setViewportView(lista);
+        
+        btFinalizar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgVoltar.png")));
+        btFinalizar.addActionListener((ActionEvent evt) -> {
+            janelaExcluir.setVisible(false);
+            janelaTudo.setVisible(true);
         });
-        return btExcluir;
+        
+        btDeletar.setIcon(new ImageIcon(getClass().getResource("/listadecompras/imagens/imgDeletar.png")));
+        btDeletar.addActionListener((ActionEvent evento) -> {
+            int i;
+            try {
+                i = Integer.parseInt(entradaCod.getText());
+            }
+            catch (NumberFormatException erroConv) {
+                i = produto.size();
+            }
+            
+            if(i < produto.size())
+                removerProduto(i);
+            else
+                JOptionPane.showMessageDialog(null, "ERRO!\nImpossível realizar a operação!");
+        });
+        
+        GroupLayout fundoJanelaExcluirLayout = new GroupLayout(fundoJanelaExcluir);
+        fundoJanelaExcluir.setLayout(fundoJanelaExcluirLayout);
+        fundoJanelaExcluirLayout.setHorizontalGroup(
+            fundoJanelaExcluirLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(scrollRemover)
+            .addGroup(fundoJanelaExcluirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(fundoJanelaExcluirLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                    .addGroup(fundoJanelaExcluirLayout.createSequentialGroup()
+                        .addComponent(lbMsg1)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btFinalizar))
+                        .addComponent(lbMsg2)
+                    .addGroup(fundoJanelaExcluirLayout.createSequentialGroup()
+                        .addComponent(entradaCod, GroupLayout.PREFERRED_SIZE, 311, GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                        .addComponent(btDeletar)))
+                .addContainerGap())
+        );
+        fundoJanelaExcluirLayout.setVerticalGroup(
+            fundoJanelaExcluirLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(fundoJanelaExcluirLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(fundoJanelaExcluirLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbMsg1)
+                    .addComponent(btFinalizar))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrollRemover, GroupLayout.PREFERRED_SIZE, 226, GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(lbMsg2)
+                .addGroup(fundoJanelaExcluirLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(entradaCod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btDeletar))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(janelaExcluir.getContentPane());
+        janelaExcluir.getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(fundoJanelaExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(fundoJanelaExcluir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        janelaExcluir.pack();
+        
+        
+        
+        janelaExcluir.setVisible(true);
     }
 }
