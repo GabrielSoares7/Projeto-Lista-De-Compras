@@ -37,10 +37,12 @@ public class Compras {
     String mes;
     ArrayList <Produto> produto = new ArrayList <> ();
     float precoTotal;
-
+    int cod;
     //Construtor
-    public Compras (String mes) {
+    public Compras (String mes, int cod) {
         this.mes = mes;
+        this.cod = cod;
+        precoTotal = 0;
     }
     
     //Elementos da janela que exibe todos os produtos
@@ -69,7 +71,7 @@ public class Compras {
 
         // Este método exibe todos os ítens da lista de compras do mes
     @SuppressWarnings("empty-statement")
-    public void mostrarTudo() {
+    public void exibir() {
         melhorarInterface();
         criarTabela();
         atualizarDados();
