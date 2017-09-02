@@ -27,7 +27,6 @@ public class Compra extends JInternalFrame {
 
         fundo = new javax.swing.JPanel();
         lbMes = new javax.swing.JLabel();
-        lbPreco = new javax.swing.JLabel();
         btAdd = new javax.swing.JButton();
         btDeletar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
@@ -40,8 +39,6 @@ public class Compra extends JInternalFrame {
         fundo.setBackground(java.awt.Color.white);
 
         lbMes.setText("Mês: " + mes);
-
-        lbPreco.setText("Preço: " + precoTotal);
 
         btAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
         btAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -93,9 +90,7 @@ public class Compra extends JInternalFrame {
             fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fundoLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbPreco)
-                    .addComponent(lbMes))
+                .addComponent(lbMes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -116,8 +111,7 @@ public class Compra extends JInternalFrame {
                     .addComponent(btSalvar)
                     .addGroup(fundoLayout.createSequentialGroup()
                         .addComponent(lbMes)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbPreco))
+                        .addGap(20, 20, 20))
                     .addComponent(btDeletar)
                     .addComponent(btAdd))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -220,7 +214,7 @@ public class Compra extends JInternalFrame {
             a[i] = produtos.get(i).nome;
         }
         JComboBox opListas = new JComboBox();
-        opListas.setModel(new DefaultComboBoxModel<>());
+        opListas.setModel(new DefaultComboBoxModel<>(a));
         JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
         
         i = opListas.getSelectedIndex();
@@ -229,6 +223,7 @@ public class Compra extends JInternalFrame {
                 + "'?"));
         if(op == 0)
             produtos.remove(i);
+        atualizarDados();
     }
 
     public void atualizarDados() {
@@ -329,7 +324,6 @@ public class Compra extends JInternalFrame {
     private javax.swing.JButton btSalvar;
     public javax.swing.JPanel fundo;
     private javax.swing.JLabel lbMes;
-    private javax.swing.JLabel lbPreco;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

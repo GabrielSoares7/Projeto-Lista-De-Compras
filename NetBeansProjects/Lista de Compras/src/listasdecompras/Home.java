@@ -262,6 +262,7 @@ public class Home extends JFrame {
     }//GEN-LAST:event_imSairActionPerformed
 
     private void btAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAbrirActionPerformed
+        System.out.println(lista.getSelectedIndex());
         abrirLista(lista.getSelectedIndex());
     }//GEN-LAST:event_btAbrirActionPerformed
 
@@ -315,21 +316,24 @@ public class Home extends JFrame {
     }
     
     public void deletar() {
-        String [] a = new String[compras.size()];
-        int i;
-        for(i = 0; i < compras.size(); i++) {
-            a[i] = compras.get(i).mes;
-        }
-        JComboBox opListas = new JComboBox();
-        opListas.setModel(new DefaultComboBoxModel<>());
-        JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
-        
-        i = opListas.getSelectedIndex();
-        int op = JOptionPane.showConfirmDialog(null, String.format("Deseja mesmo deletar a\nlista '"
-                + compras.get(i).mes 
-                + "'?"));
-        if(op == 0)
-            compras.remove(i);
+        try {
+            String [] a = new String[compras.size()];
+            int i;
+            for(i = 0; i < compras.size(); i++) {
+                a[i] = compras.get(i).mes;
+            }
+            JComboBox opListas = new JComboBox();
+            opListas.setModel(new DefaultComboBoxModel<>(a));
+            JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
+
+            i = opListas.getSelectedIndex();
+            int op = JOptionPane.showConfirmDialog(null, String.format("Deseja mesmo deletar a\nlista '"
+                    + compras.get(i).mes 
+                    + "'?"));
+            if(op == 0)
+                compras.remove(i);
+            atualizarDados();
+        }catch(ArrayIndexOutOfBoundsException erro) {}
     }
     
     public void atualizarDados() {
@@ -353,13 +357,13 @@ public class Home extends JFrame {
         try {
             if(i < compras.size()) {
                 desktop.add(compras.get(i));
-                compras.get(0).setVisible(true);
+                compras.get(i).setVisible(true);
             }
         }
         catch (IllegalArgumentException erro) {
             //JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");//
             desktop.add(compras.get(i));
-            compras.get(0).setVisible(true);
+            compras.get(i).setVisible(true);
         }
         catch(ArrayIndexOutOfBoundsException erro) {
             JOptionPane.showMessageDialog(null, "Nenhum ítem foi selecionado");
