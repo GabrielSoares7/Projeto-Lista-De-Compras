@@ -12,12 +12,10 @@ public class Compra extends JInternalFrame {
     
     ArrayList <Produto> produtos = new ArrayList<>();
     String mes;
-    int cod;
     float precoTotal;
     
-    public Compra(String mes, int cod) {
+    public Compra(String mes) {
         this.mes = mes;
-        this.cod = cod;
         precoTotal = 0;
         initComponents();
     }

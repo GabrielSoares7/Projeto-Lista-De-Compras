@@ -22,9 +22,7 @@ import listadecompras.Main;
 public class Home extends JFrame {
     //atributos
     ArrayList <Compra> compras = new ArrayList<>(); 
-    int cod;
     public Home() {
-        cod = 0;
         initComponents();
         this.setLocationRelativeTo(null);//por definição no final do método initComponents();
     }
@@ -52,8 +50,6 @@ public class Home extends JFrame {
         mPesquisar = new javax.swing.JMenu();
         imPNome = new javax.swing.JMenuItem();
         imPLocal = new javax.swing.JMenuItem();
-        mOutros = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista de Compras");
@@ -209,13 +205,6 @@ public class Home extends JFrame {
 
         jMenuBar1.add(mPesquisar);
 
-        mOutros.setText("Outros");
-
-        jMenuItem1.setText("Fechar Todas as Janelas");
-        mOutros.add(jMenuItem1);
-
-        jMenuBar1.add(mOutros);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -283,12 +272,8 @@ public class Home extends JFrame {
     
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
-        compras.add(new Compra(mes, cod));
-        cod++;
+        compras.add(new Compra(mes));
         int op = JOptionPane.showConfirmDialog(null, "Deseja abrir esta lista de compras?");
-        if(op == 0)
-            abrirLista(cod-1);
-        
         atualizarDados();
     }
     
@@ -297,9 +282,9 @@ public class Home extends JFrame {
         String str[] = new String[compras.size()];
         
         for(i = 0; i < compras.size(); i++) 
-            str[i] = String.format("(%d) - %s ", compras.get(i).cod, compras.get(i).mes);
+            str[i] = String.format("(%d) - %s ", i, compras.get(i).mes);
        
-       lista.setModel(new AbstractListModel<String>() {
+        lista.setModel(new AbstractListModel<String>() {
             String[] strings = str;
             @Override
             public int getSize() { return strings.length; }
@@ -308,12 +293,11 @@ public class Home extends JFrame {
         });
     }
     
-    public void abrirLista(int codigo) {
+    public void abrirLista(int i) {
         atualizarDados();
-        int i = buscarCodigo(codigo);
         try {
             if(i < compras.size()) {
-                desktop.add(compras.get(0));
+                desktop.add(compras.get(i));
                 compras.get(0).setVisible(true);
             }
         }
@@ -322,39 +306,22 @@ public class Home extends JFrame {
         }
     }
     
-    public int buscarCodigo(int codigo) {
-        int i;
-        boolean existe = false;
-        for(i = 0; i < compras.size(); i++) {
-            if(codigo == compras.get(i).cod){
-                existe = true;
-                break;
-            }
-        }
-        
-        if(existe == false) {
-            JOptionPane.showMessageDialog(null, "Este código de compra não existe");
-            return compras.size();
-        }
-        else
-            return i;
-    }
-    
     public void editarTituloLista() {
         String str = JOptionPane.showInputDialog("Digite o código da compra:");
         boolean valido = true;
-        int codigo = 0;
+        int i = 0;
         try {
-            codigo = Integer.parseInt(str);
+            i = Integer.parseInt(str);
         } 
         catch(NumberFormatException erro) {
             valido = false;
-            JOptionPane.showMessageDialog(null, "Código inválido");
+            JOptionPane.showMessageDialog(null, "Código inválido!");
         }
         if(valido == true) {
-            int i = buscarCodigo(codigo);
-            if(i < compras.size());
+            if(i < compras.size() && i >= 0)
                 compras.get(i).mes = JOptionPane.showInputDialog("Digite o mês:\n");
+            else
+                JOptionPane.showMessageDialog(null, "Código inválido!");
         }  
         atualizarDados();
     }
@@ -380,10 +347,6 @@ public class Home extends JFrame {
     }
     
     
-    public void fecharTudo() {
-        JInternalFrame j = null;
-        desktop.removeAll();
-    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -428,13 +391,11 @@ public class Home extends JFrame {
     private javax.swing.JMenuItem imSair;
     private javax.swing.JMenuItem imSobre;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbImg;
     private javax.swing.JList<String> lista;
     private javax.swing.JMenu mArquivo;
     private javax.swing.JMenu mEditar;
-    private javax.swing.JMenu mOutros;
     private javax.swing.JMenu mPesquisar;
     // End of variables declaration//GEN-END:variables
 }
