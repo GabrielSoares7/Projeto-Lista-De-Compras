@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import java.util.ArrayList;
 
 public class PrevisaoDaCompra extends Compra {
-    ArrayList <Produto> produtos = new ArrayList<>();
+    ArrayList <Produto> p = new ArrayList<>();
     public PrevisaoDaCompra() {
         super("Próximo Mês");
     }
@@ -15,7 +15,7 @@ public class PrevisaoDaCompra extends Compra {
         int i, j;
         for(i = 0; i < a.size(); i++) {
             for(j = 0;j < a.get(i).produtos.size(); j++)
-                produtos.add(a.get(i).produtos.get(j));
+                p.add(a.get(i).produtos.get(j));
         }
     }
     
@@ -25,38 +25,38 @@ public class PrevisaoDaCompra extends Compra {
         int op = JOptionPane.showConfirmDialog(null, "Deseja adicionar um produto existente");
         if(op == 1) {
             int i;
-            Object lista[] = new Object[produtos.size()];
-            for(i = 0; i < produtos.size(); i++) 
-                lista[i] = String.format(produtos.get(i).nome 
+            Object lista[] = new Object[p.size()];
+            for(i = 0; i < p.size(); i++) 
+                lista[i] = String.format(p.get(i).nome 
                         + ", " 
-                        + produtos.get(i).localDeCompra 
+                        + p.get(i).localDeCompra 
                         + " R$ "
-                        + produtos.get(i).getPrecoString());
+                        + p.get(i).getPrecoString());
 
             int a = JOptionPane.showOptionDialog(null, lista, "Escolha o produto", WIDTH, HEIGHT, null, lista, null);
-            Produto p = produtos.get(a);
-            switch(p.tipo) {
+            Produto objP = p.get(a);
+            switch(objP.tipo) {
                 case 1:
                     i = 0;
-                    while(produtos.get(i).tipo == 1)
+                    while(p.get(i).tipo == 1)
                         i++;
-                    produtos.add(i, p);
+                    p.add(i, objP);
                     break;
                 case 2:
                     i = produtos.size();
                     while(produtos.get(i).tipo == 3)
                         i--;
-                    produtos.add(i, p);
+                    p.add(i, objP);
                     break;
                 case 3:
-                    produtos.add(produtos.size(), p);
+                    p.add(produtos.size(), objP);
                     break;
             }
             //Atualiza a tabela
             atualizarDados();
         }
         else {
-            addProduto();
+            addNovoProduto();
         }
     }
     
@@ -139,6 +139,7 @@ public class PrevisaoDaCompra extends Compra {
     }
     
     public void pagar() {
+        int i = 0;
         float preco = 0;
         String str = JOptionPane.showInputDialog(null, "Digite o valor que você gastou ou vai gastar:\nApenas numeros e pontos");
         boolean valido = false;
@@ -155,7 +156,21 @@ public class PrevisaoDaCompra extends Compra {
             if(preco != 0)
                 valido = true;
         }
+        
+        while(preco >= 0) {
+            precoTotal -= produtos.get(i).preco;
+            if(preco < 0) {
+                precoTotal += produtos.get(i).preco;
+                break;
+            }
+            else{
+                produtos.remove(i);
+                i++;
+            }
+        }
     }
     
-    
+    public void addBt() {
+        
+    }
 } 

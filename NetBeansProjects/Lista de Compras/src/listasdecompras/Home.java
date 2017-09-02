@@ -10,13 +10,9 @@ import java.awt.MenuComponent;
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 
 //Utilidades
 import java.util.ArrayList;
-import javax.swing.ImageIcon;
-import javax.swing.JDesktopPane;
-import listadecompras.Main;
 
 
 public class Home extends JFrame {
