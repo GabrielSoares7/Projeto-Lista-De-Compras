@@ -279,7 +279,7 @@ public class Home extends JFrame {
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
         compras.add(new Compra(mes));
-        int op = JOptionPane.showConfirmDialog(null, "Deseja abrir esta lista de compras?");
+        
         atualizarDados();
     }
     

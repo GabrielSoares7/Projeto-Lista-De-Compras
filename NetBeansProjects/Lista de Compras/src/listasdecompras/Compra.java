@@ -311,7 +311,7 @@ public class Compra extends JInternalFrame {
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btSalvar;
-    private javax.swing.JPanel fundo;
+    public javax.swing.JPanel fundo;
     private javax.swing.JLabel lbMes;
     private javax.swing.JLabel lbPreco;
     private javax.swing.JTable tabela;

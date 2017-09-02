@@ -2,7 +2,6 @@ package listasdecompras;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.JButton;
 import java.util.ArrayList;
 
 public class PrevisaoDaCompra extends Compra {
@@ -38,18 +37,16 @@ public class PrevisaoDaCompra extends Compra {
             switch(objP.tipo) {
                 case 1:
                     i = 0;
-                    while(p.get(i).tipo == 1)
-                        i++;
-                    p.add(i, objP);
+                    produtos.add(0, objP);
                     break;
                 case 2:
-                    i = produtos.size();
-                    while(produtos.get(i).tipo == 3)
-                        i--;
-                    p.add(i, objP);
+                    i = 0;
+                    while(produtos.get(i).tipo == 1 && i < produtos.size())
+                        i++;
+                    produtos.add(i, objP);
                     break;
                 case 3:
-                    p.add(produtos.size(), objP);
+                    produtos.add(produtos.size(), objP);
                     break;
             }
             //Atualiza a tabela
@@ -120,57 +117,19 @@ public class PrevisaoDaCompra extends Compra {
         switch(tipo) {
             case 1:
                 i = 0;
-                while(produtos.get(i).tipo == 1)
-                    i++;
-                produtos.add(i, new Produto(nome, unidadeDeCompra, localDeCompra, qnt, preco, tipo));
+                produtos.add(0, new Produto(nome, unidadeDeCompra, localDeCompra, qnt, preco, tipo));
                 break;
             case 2:
-                i = produtos.size();
-                while(produtos.get(i).tipo == 3)
-                    i--;
+                i = 0;
+                while(produtos.get(i).tipo == 1 && i < produtos.size())
+                    i++;
                 produtos.add(i, new Produto(nome, unidadeDeCompra, localDeCompra, qnt, preco, tipo));
                 break;
             case 3:
                 produtos.add(produtos.size(), new Produto(nome, unidadeDeCompra, localDeCompra, qnt, preco, tipo));
                 break;
-            }
+           }
         //Atualiza a tabela
         atualizarDados();
-    }
-    
-    public void pagar() {
-        int i = 0;
-        float preco = 0;
-        String str = JOptionPane.showInputDialog(null, "Digite o valor que você gastou ou vai gastar:\nApenas numeros e pontos");
-        boolean valido = false;
-        
-        while(valido != true) {
-            try {
-                preco = Float.parseFloat(str);
-            }
-            catch (NumberFormatException erro) {
-                JOptionPane.showMessageDialog(null, "Preço Inválido");
-                preco = 0;
-            }
-            
-            if(preco != 0)
-                valido = true;
-        }
-        
-        while(preco >= 0) {
-            precoTotal -= produtos.get(i).preco;
-            if(preco < 0) {
-                precoTotal += produtos.get(i).preco;
-                break;
-            }
-            else{
-                produtos.remove(i);
-                i++;
-            }
-        }
-    }
-    
-    public void addBt() {
-        
-    }
+    }  
 } 
