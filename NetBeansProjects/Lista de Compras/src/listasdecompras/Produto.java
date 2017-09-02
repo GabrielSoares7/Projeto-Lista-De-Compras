@@ -1,4 +1,4 @@
-package listadecompras;
+package listasdecompras;
 
 public class Produto {
     //Atributos da classe produto;
@@ -37,13 +37,13 @@ public class Produto {
     }
     
     public String getTipoString() {
-        if(tipo == 1) 
-            return "Essencial";
-        
-        else if(tipo == 2) 
-            return "Importante";
-        
-        else
-            return "Secundario";
+        switch (tipo) {
+            case 1:
+                return "Essencial";
+            case 2:
+                return "Importante";
+            default:
+                return "Secundario";
+        }
     }
 }
