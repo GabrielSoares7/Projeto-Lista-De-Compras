@@ -1,6 +1,8 @@
 package listasdecompras;
 
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -212,9 +214,23 @@ public class Compra extends JInternalFrame {
     }
     
     public void removerProduto() {
+        String [] a = new String[produtos.size()];
+        int i;
+        for(i = 0; i < produtos.size(); i++) {
+            a[i] = produtos.get(i).nome;
+        }
+        JComboBox opListas = new JComboBox();
+        opListas.setModel(new DefaultComboBoxModel<>());
+        JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
         
+        i = opListas.getSelectedIndex();
+        int op = JOptionPane.showConfirmDialog(null, String.format("Deseja mesmo deletar o\nproduto '"
+                + produtos.get(i).nome
+                + "'?"));
+        if(op == 0)
+            produtos.remove(i);
     }
-    
+
     public void atualizarDados() {
         int i;
         precoTotal = 0;

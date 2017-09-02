@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.MenuComponent;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 
 //Elementos Swing
 import javax.swing.AbstractListModel;
@@ -13,6 +16,10 @@ import javax.swing.JFrame;
 
 //Utilidades
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 
 public class Home extends JFrame {
@@ -38,6 +45,7 @@ public class Home extends JFrame {
         desktop = new javax.swing.JLayeredPane();
         lbImg = new javax.swing.JLabel();
         lbInfo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mArquivo = new javax.swing.JMenu();
         imAdd = new javax.swing.JMenuItem();
@@ -67,6 +75,11 @@ public class Home extends JFrame {
         jScrollPane1.setViewportView(lista);
 
         btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
+        btDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDeletarActionPerformed(evt);
+            }
+        });
 
         btAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
         btAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -91,6 +104,8 @@ public class Home extends JFrame {
 
         lbImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIFLogo.png"))); // NOI18N
 
+        lbInfo.setFont(lbInfo.getFont().deriveFont(lbInfo.getFont().getSize()-1f));
+        lbInfo.setForeground(new java.awt.Color(152, 152, 152));
         lbInfo.setText("Recomendamos que você não abra várias janelas ao mesmo tempo");
 
         desktop.setLayer(lbImg, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -101,13 +116,11 @@ public class Home extends JFrame {
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(109, Short.MAX_VALUE)
+                .addContainerGap(132, Short.MAX_VALUE)
                 .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(desktopLayout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(lbInfo))
+                    .addComponent(lbInfo)
                     .addComponent(lbImg))
-                .addGap(101, 101, 101))
+                .addGap(78, 78, 78))
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,9 +128,11 @@ public class Home extends JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbImg)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108))
+                .addComponent(lbInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(132, 132, 132))
         );
+
+        jLabel1.setText("Selecione um ítem para abrir");
 
         javax.swing.GroupLayout fundoLayout = new javax.swing.GroupLayout(fundo);
         fundo.setLayout(fundoLayout);
@@ -134,7 +149,10 @@ public class Home extends JFrame {
                         .addComponent(btDeletar)
                         .addGap(208, 208, 208))
                     .addComponent(btAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(fundoLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
@@ -150,8 +168,10 @@ public class Home extends JFrame {
                             .addComponent(btPrevisao)
                             .addComponent(btDeletar)
                             .addComponent(btAdd))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 364, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btAbrir)))
                 .addContainerGap())
@@ -223,9 +243,7 @@ public class Home extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -244,7 +262,7 @@ public class Home extends JFrame {
     }//GEN-LAST:event_imSairActionPerformed
 
     private void btAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAbrirActionPerformed
-        abrirLista(0);
+        abrirLista(lista.getSelectedIndex());
     }//GEN-LAST:event_btAbrirActionPerformed
 
     private void imSobreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imSobreActionPerformed
@@ -284,12 +302,34 @@ public class Home extends JFrame {
     private void btPrevisaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrevisaoActionPerformed
         abrirPrevisao();
     }//GEN-LAST:event_btPrevisaoActionPerformed
+
+    private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
+        deletar();
+    }//GEN-LAST:event_btDeletarActionPerformed
     
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
         compras.add(new Compra(mes));
         
         atualizarDados();
+    }
+    
+    public void deletar() {
+        String [] a = new String[compras.size()];
+        int i;
+        for(i = 0; i < compras.size(); i++) {
+            a[i] = compras.get(i).mes;
+        }
+        JComboBox opListas = new JComboBox();
+        opListas.setModel(new DefaultComboBoxModel<>());
+        JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
+        
+        i = opListas.getSelectedIndex();
+        int op = JOptionPane.showConfirmDialog(null, String.format("Deseja mesmo deletar a\nlista '"
+                + compras.get(i).mes 
+                + "'?"));
+        if(op == 0)
+            compras.remove(i);
     }
     
     public void atualizarDados() {
@@ -309,17 +349,20 @@ public class Home extends JFrame {
     }
     
     public void abrirLista(int i) {
-        atualizarDados();
+        //atualizarDados();
         try {
             if(i < compras.size()) {
                 desktop.add(compras.get(i));
                 compras.get(0).setVisible(true);
             }
         }
-        catch (IllegalArgumentException a) {
+        catch (IllegalArgumentException erro) {
             //JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");//
             desktop.add(compras.get(i));
             compras.get(0).setVisible(true);
+        }
+        catch(ArrayIndexOutOfBoundsException erro) {
+            JOptionPane.showMessageDialog(null, "Nenhum ítem foi selecionado");
         }
     }
     
@@ -414,6 +457,7 @@ public class Home extends JFrame {
     private javax.swing.JMenuItem imPNome;
     private javax.swing.JMenuItem imSair;
     private javax.swing.JMenuItem imSobre;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbImg;
