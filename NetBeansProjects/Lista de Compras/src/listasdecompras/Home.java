@@ -4,12 +4,13 @@ package listasdecompras;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.MenuComponent;
 
 //Elementos Swing
 import javax.swing.AbstractListModel;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
-
+import javax.swing.JInternalFrame;
 
 //Utilidades
 import java.util.ArrayList;
@@ -39,7 +40,8 @@ public class Home extends JFrame {
         btAdd = new javax.swing.JButton();
         btPrevisao = new javax.swing.JButton();
         btAbrir = new javax.swing.JButton();
-        desktop = new JDesktopPane();
+        desktop = new javax.swing.JLayeredPane();
+        lbImg = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mArquivo = new javax.swing.JMenu();
         imAdd = new javax.swing.JMenuItem();
@@ -47,6 +49,11 @@ public class Home extends JFrame {
         imSair = new javax.swing.JMenuItem();
         mEditar = new javax.swing.JMenu();
         imEdit = new javax.swing.JMenuItem();
+        mPesquisar = new javax.swing.JMenu();
+        imPNome = new javax.swing.JMenuItem();
+        imPLocal = new javax.swing.JMenuItem();
+        mOutros = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista de Compras");
@@ -83,6 +90,27 @@ public class Home extends JFrame {
             }
         });
 
+        lbImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIFLogo.png"))); // NOI18N
+
+        desktop.setLayer(lbImg, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
+        desktop.setLayout(desktopLayout);
+        desktopLayout.setHorizontalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
+                .addContainerGap(166, Short.MAX_VALUE)
+                .addComponent(lbImg)
+                .addGap(147, 147, 147))
+        );
+        desktopLayout.setVerticalGroup(
+            desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbImg)
+                .addGap(173, 173, 173))
+        );
+
         javax.swing.GroupLayout fundoLayout = new javax.swing.GroupLayout(fundo);
         fundo.setLayout(fundoLayout);
         fundoLayout.setHorizontalGroup(
@@ -96,13 +124,11 @@ public class Home extends JFrame {
                         .addComponent(btAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btDeletar)
-                        .addGap(214, 214, 214))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fundoLayout.createSequentialGroup()
-                        .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btAbrir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(208, 208, 208))
+                    .addComponent(btAbrir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         fundoLayout.setVerticalGroup(
@@ -110,16 +136,14 @@ public class Home extends JFrame {
             .addGroup(fundoLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(fundoLayout.createSequentialGroup()
-                        .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 12, Short.MAX_VALUE))
+                    .addComponent(desktop)
                     .addGroup(fundoLayout.createSequentialGroup()
                         .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btPrevisao)
                             .addComponent(btDeletar)
                             .addComponent(btAdd))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btAbrir)))
                 .addContainerGap())
@@ -165,6 +189,33 @@ public class Home extends JFrame {
 
         jMenuBar1.add(mEditar);
 
+        mPesquisar.setText("Pesquisar");
+
+        imPNome.setText("Pesquisar por nome");
+        imPNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imPNomeActionPerformed(evt);
+            }
+        });
+        mPesquisar.add(imPNome);
+
+        imPLocal.setText("Pesquisar por local");
+        imPLocal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imPLocalActionPerformed(evt);
+            }
+        });
+        mPesquisar.add(imPLocal);
+
+        jMenuBar1.add(mPesquisar);
+
+        mOutros.setText("Outros");
+
+        jMenuItem1.setText("Fechar Todas as Janelas");
+        mOutros.add(jMenuItem1);
+
+        jMenuBar1.add(mOutros);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -206,6 +257,29 @@ public class Home extends JFrame {
     private void imEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imEditActionPerformed
         editarTituloLista();
     }//GEN-LAST:event_imEditActionPerformed
+
+    private void imPNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imPNomeActionPerformed
+        try {
+            Pesquisa p = new Pesquisa(1, compras);
+            desktop.add(p);
+            p.setVisible(true);
+            
+        }
+        catch (java.lang.IllegalArgumentException a) {
+            JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
+        }
+    }//GEN-LAST:event_imPNomeActionPerformed
+
+    private void imPLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imPLocalActionPerformed
+        try {
+            Pesquisa p = new Pesquisa(1, compras);
+            desktop.add(p);
+            p.setVisible(true);
+        }
+        catch (java.lang.IllegalArgumentException a) {
+            JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
+        }
+    }//GEN-LAST:event_imPLocalActionPerformed
     
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
@@ -239,7 +313,7 @@ public class Home extends JFrame {
         int i = buscarCodigo(codigo);
         try {
             if(i < compras.size()) {
-                fundo.add(compras.get(0));
+                desktop.add(compras.get(0));
                 compras.get(0).setVisible(true);
             }
         }
@@ -305,6 +379,11 @@ public class Home extends JFrame {
             System.exit(0);
     }
     
+    
+    public void fecharTudo() {
+        JInternalFrame j = null;
+        desktop.removeAll();
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -340,16 +419,22 @@ public class Home extends JFrame {
     private javax.swing.JButton btAdd;
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btPrevisao;
-    private javax.swing.JDesktopPane desktop;
+    private javax.swing.JLayeredPane desktop;
     private javax.swing.JPanel fundo;
     private javax.swing.JMenuItem imAdd;
     private javax.swing.JMenuItem imEdit;
+    private javax.swing.JMenuItem imPLocal;
+    private javax.swing.JMenuItem imPNome;
     private javax.swing.JMenuItem imSair;
     private javax.swing.JMenuItem imSobre;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lbImg;
     private javax.swing.JList<String> lista;
     private javax.swing.JMenu mArquivo;
     private javax.swing.JMenu mEditar;
+    private javax.swing.JMenu mOutros;
+    private javax.swing.JMenu mPesquisar;
     // End of variables declaration//GEN-END:variables
 }
