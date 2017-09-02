@@ -78,6 +78,11 @@ public class Home extends JFrame {
         });
 
         btPrevisao.setText("Previsão");
+        btPrevisao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPrevisaoActionPerformed(evt);
+            }
+        });
 
         btAbrir.setText("Abrir");
         btAbrir.addActionListener(new java.awt.event.ActionListener() {
@@ -269,6 +274,10 @@ public class Home extends JFrame {
             JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
         }
     }//GEN-LAST:event_imPLocalActionPerformed
+
+    private void btPrevisaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrevisaoActionPerformed
+        abrirPrevisao();
+    }//GEN-LAST:event_btPrevisaoActionPerformed
     
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
@@ -304,6 +313,10 @@ public class Home extends JFrame {
         catch (java.lang.IllegalArgumentException a) {
             JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
         }
+    }
+    
+    public void abrirPrevisao() {
+        
     }
     
     public void editarTituloLista() {
