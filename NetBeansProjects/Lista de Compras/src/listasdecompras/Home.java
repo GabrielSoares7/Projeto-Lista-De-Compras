@@ -1,19 +1,31 @@
 package listasdecompras;
 
+//Interface Gráfica: Elementos AWT
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+
+//Elementos Swing
 import javax.swing.AbstractListModel;
-
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
-import listadecompras.Compras;
+import javax.swing.JFrame;
 
-public class Home extends javax.swing.JFrame {
+
+//Utilidades
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
+import listadecompras.Main;
+
+
+public class Home extends JFrame {
     //atributos
     ArrayList <Compra> compras = new ArrayList<>(); 
     int cod;
     public Home() {
         cod = 0;
         initComponents();
+        this.setLocationRelativeTo(null);//por definição no final do método initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -27,7 +39,7 @@ public class Home extends javax.swing.JFrame {
         btAdd = new javax.swing.JButton();
         btPrevisao = new javax.swing.JButton();
         btAbrir = new javax.swing.JButton();
-        desktop = new javax.swing.JDesktopPane();
+        desktop = new JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         mArquivo = new javax.swing.JMenu();
         imAdd = new javax.swing.JMenuItem();
@@ -36,7 +48,9 @@ public class Home extends javax.swing.JFrame {
         mEditar = new javax.swing.JMenu();
         imEdit = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Lista de Compras");
+        setResizable(false);
 
         fundo.setBackground(new java.awt.Color(254, 254, 254));
 
@@ -174,7 +188,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btAddActionPerformed
 
     private void imSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imSairActionPerformed
-        System.exit(0);
+        sair();
     }//GEN-LAST:event_imSairActionPerformed
 
     private void btAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAbrirActionPerformed
@@ -225,7 +239,7 @@ public class Home extends javax.swing.JFrame {
         int i = buscarCodigo(codigo);
         try {
             if(i < compras.size()) {
-                desktop.add(compras.get(0));
+                fundo.add(compras.get(0));
                 compras.get(0).setVisible(true);
             }
         }
@@ -283,6 +297,12 @@ public class Home extends javax.swing.JFrame {
                         + "Clédja Rolin, da discliplina de Programação\n"
                         + "Orientada a Objetos, para fins avaliativos.\n");
         JOptionPane.showMessageDialog(null, msg);
+    }
+    
+    public void sair() {
+        int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo sair?");
+        if(op == 0)
+            System.exit(0);
     }
     
     public static void main(String args[]) {
