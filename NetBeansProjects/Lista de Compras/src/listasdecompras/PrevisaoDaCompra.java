@@ -3,6 +3,8 @@ package listasdecompras;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 
 public class PrevisaoDaCompra extends Compra {
     ArrayList <Produto> p = new ArrayList<>();
@@ -10,7 +12,8 @@ public class PrevisaoDaCompra extends Compra {
         super("Próximo Mês");
     }
     
-    public final void preencherProdutos(ArrayList <Compra> a) {
+    public void preencherProdutos(ArrayList <Compra> a) {
+        p.removeAll(p);
         int i, j;
         for(i = 0; i < a.size(); i++) {
             for(j = 0;j < a.get(i).produtos.size(); j++)
@@ -22,17 +25,21 @@ public class PrevisaoDaCompra extends Compra {
     public void addProduto() {
         //Adiciona um produto a lista. Se for essencial, vai para o topo, se não for vai para o final
         int op = JOptionPane.showConfirmDialog(null, "Deseja adicionar um produto existente");
-        if(op == 1) {
+        if(op == 0) {
             int i;
-            Object lista[] = new Object[p.size()];
+            String lista[] = new String[p.size()];
             for(i = 0; i < p.size(); i++) 
                 lista[i] = String.format(p.get(i).nome 
                         + ", " 
                         + p.get(i).localDeCompra 
                         + " R$ "
                         + p.get(i).getPrecoString());
-
-            int a = JOptionPane.showOptionDialog(null, lista, "Escolha o produto", WIDTH, HEIGHT, null, lista, null);
+            
+            /* Cria caixa de seleção de produtos */
+            JComboBox opProdutos = new JComboBox();
+            opProdutos.setModel(new DefaultComboBoxModel<>(lista));
+            JOptionPane.showMessageDialog(null, opProdutos, "Selecione o produto", JOptionPane.QUESTION_MESSAGE);
+            int a = opProdutos.getSelectedIndex();
             Produto objP = p.get(a);
             switch(objP.tipo) {
                 case 1:
@@ -131,5 +138,6 @@ public class PrevisaoDaCompra extends Compra {
            }
         //Atualiza a tabela
         atualizarDados();
-    }  
+    }
+    
 } 

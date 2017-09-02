@@ -37,6 +37,7 @@ public class Home extends JFrame {
         btAbrir = new javax.swing.JButton();
         desktop = new javax.swing.JLayeredPane();
         lbImg = new javax.swing.JLabel();
+        lbInfo = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         mArquivo = new javax.swing.JMenu();
         imAdd = new javax.swing.JMenuItem();
@@ -90,23 +91,32 @@ public class Home extends JFrame {
 
         lbImg.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgIFLogo.png"))); // NOI18N
 
+        lbInfo.setText("Recomendamos que você não abra várias janelas ao mesmo tempo");
+
         desktop.setLayer(lbImg, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        desktop.setLayer(lbInfo, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout desktopLayout = new javax.swing.GroupLayout(desktop);
         desktop.setLayout(desktopLayout);
         desktopLayout.setHorizontalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
-                .addContainerGap(166, Short.MAX_VALUE)
-                .addComponent(lbImg)
-                .addGap(147, 147, 147))
+                .addContainerGap(109, Short.MAX_VALUE)
+                .addGroup(desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(desktopLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(lbInfo))
+                    .addComponent(lbImg))
+                .addGap(101, 101, 101))
         );
         desktopLayout.setVerticalGroup(
             desktopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, desktopLayout.createSequentialGroup()
+            .addGroup(desktopLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbImg)
-                .addGap(173, 173, 173))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(108, 108, 108))
         );
 
         javax.swing.GroupLayout fundoLayout = new javax.swing.GroupLayout(fundo);
@@ -118,7 +128,7 @@ public class Home extends JFrame {
                 .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(fundoLayout.createSequentialGroup()
                         .addComponent(btPrevisao)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btDeletar)
@@ -127,7 +137,7 @@ public class Home extends JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(desktop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(27, 27, 27))
         );
         fundoLayout.setVerticalGroup(
             fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,11 +260,10 @@ public class Home extends JFrame {
     }//GEN-LAST:event_imEditActionPerformed
 
     private void imPNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imPNomeActionPerformed
+        Pesquisa p = new Pesquisa(1, compras);
         try {
-            Pesquisa p = new Pesquisa(1, compras);
             desktop.add(p);
             p.setVisible(true);
-            
         }
         catch (java.lang.IllegalArgumentException a) {
             JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
@@ -267,7 +276,7 @@ public class Home extends JFrame {
             desktop.add(p);
             p.setVisible(true);
         }
-        catch (java.lang.IllegalArgumentException a) {
+        catch (IllegalArgumentException a) {
             JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
         }
     }//GEN-LAST:event_imPLocalActionPerformed
@@ -307,15 +316,24 @@ public class Home extends JFrame {
                 compras.get(0).setVisible(true);
             }
         }
-        catch (java.lang.IllegalArgumentException a) {
-            JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
+        catch (IllegalArgumentException a) {
+            //JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");//
+            desktop.add(compras.get(i));
+            compras.get(0).setVisible(true);
         }
     }
     
-    public void abrirPrevisao() {
-        desktop.add(previsao);
-        previsao.preencherProdutos(compras);
-        previsao.setVisible(true);
+    public void abrirPrevisao() {    
+        try {
+            desktop.add(previsao);
+            previsao.preencherProdutos(compras);
+            previsao.setVisible(true);
+        }
+        catch(IllegalArgumentException erro) {
+            desktop.add(previsao);
+            previsao.preencherProdutos(compras);
+            previsao.setVisible(true);
+        }
     }
     
     public void editarTituloLista() {
@@ -358,13 +376,7 @@ public class Home extends JFrame {
             System.exit(0);
     }
     
-    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -405,6 +417,7 @@ public class Home extends JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lbImg;
+    private javax.swing.JLabel lbInfo;
     private javax.swing.JList<String> lista;
     private javax.swing.JMenu mArquivo;
     private javax.swing.JMenu mEditar;

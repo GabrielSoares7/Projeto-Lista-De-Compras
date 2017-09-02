@@ -26,7 +26,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         int contador = 0;//contar produtos para criar a matriz itens
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).nome.contains(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).nome.equalsIgnoreCase(pesquisa)) {
                     contador++;
                 }        
             } 
@@ -34,7 +34,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         Object itens[][] = new Object[contador][6];
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).nome.contains(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).nome.equalsIgnoreCase(pesquisa)) {
                     itens[i][0] = listaDeCompras.get(i).mes;
                     itens[i][1] = listaDeCompras.get(i).produtos.get(j).nome;
                     itens[i][2] = listaDeCompras.get(i).produtos.get(j).unidadeDeCompra;
@@ -55,7 +55,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         int contador = 0;//contar produtos para criar a matriz itens
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.contains(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.equalsIgnoreCase(pesquisa)) {
                     contador++;
                 }        
             } 
@@ -64,7 +64,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
        // Object itens[][] = null;
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.contains(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.equalsIgnoreCase(pesquisa)) {
                     itens[i][0] = listaDeCompras.get(i).mes;
                     itens[i][1] = listaDeCompras.get(i).produtos.get(j).nome;
                     itens[i][2] = listaDeCompras.get(i).produtos.get(j).unidadeDeCompra;
