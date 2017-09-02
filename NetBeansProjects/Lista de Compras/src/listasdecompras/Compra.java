@@ -252,63 +252,11 @@ public class Compra extends JInternalFrame {
         tabela.setModel(new DefaultTableModel(dados, a));
     }
     
-    public void validarAlteracoes() {
-        int i;
-        int guardarInt = 0;
-        float guardarFloat = 0;
-        String convert, msg;
-        int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo atualizar os dados?\nAs informações anteriores serão perdidas");
-        if(op == 0) {
-            for(i = 0; i < produtos.size(); i++) {
-                //guardando uns dados que serão utilizados posteriormentes
-                guardarInt = produtos.get(i).qnt;
-                guardarFloat = produtos.get(i).preco;
-                    
-                produtos.get(i).nome = tabela.getValueAt(i, 0).toString();
-                produtos.get(i).unidadeDeCompra = tabela.getValueAt(i, 1).toString();
-                produtos.get(i).localDeCompra = tabela.getValueAt(i, 2).toString();
-
-                try {
-                    if(!produtos.get(i).getQntString().equals(tabela.getValueAt(i, 3).toString())) {
-                        msg = String.format("Deseja alterar a quantidade do produto %s?\nDigite um valor inteiro:", produtos.get(i).nome);
-                        convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 3).toString());
-                        produtos.get(i).alterarQnt(Integer.parseInt(convert));
-                    }
-                }
-                catch (NumberFormatException erroConv) {
-                    JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                    produtos.get(i).qnt = guardarInt;
-                }
-                catch (NullPointerException nulo) {
-                    produtos.get(i).qnt = guardarInt;
-                }
-       
-                try {
-                    if(guardarFloat == produtos.get(i).preco) {
-                        if(!produtos.get(i).getPrecoString().equals(tabela.getValueAt(i, 4).toString())) {
-                            msg = String.format("Deseja alterar o preço do(a) %s?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)", produtos.get(i).nome);
-                            convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 4));
-                            produtos.get(i).preco = Float.parseFloat(convert);
-                        }
-                    }
-                }
-                catch(NumberFormatException erroConv) {
-                    JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                    produtos.get(i).preco = guardarFloat;
-                }
-                catch (NullPointerException nulo) {
-                    produtos.get(i).preco = guardarFloat;
-                }
-                        
-                    
-            }
-            atualizarDados();
-        }
-    }
+    public void validarAlteracoes() 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane Scroll;
-    private javax.swing.JButton btAdd;
+    public javax.swing.JButton btAdd;
     private javax.swing.JButton btAtualizar;
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btSalvar;

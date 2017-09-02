@@ -2,13 +2,13 @@ package listasdecompras;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.JButton;
 import java.util.ArrayList;
 
 public class PrevisaoDaCompra extends Compra {
     ArrayList <Produto> produtos = new ArrayList<>();
-    public PrevisaoDaCompra(ArrayList <Compra> a, String mes) {
-        super(mes);
-        preencherProdutos(a);
+    public PrevisaoDaCompra() {
+        super("Próximo Mês");
     }
     
     public final void preencherProdutos(ArrayList <Compra> a) {
@@ -21,6 +21,47 @@ public class PrevisaoDaCompra extends Compra {
     
     @Override
     public void addProduto() {
+        //Adiciona um produto a lista. Se for essencial, vai para o topo, se não for vai para o final
+        int op = JOptionPane.showConfirmDialog(null, "Deseja adicionar um produto existente");
+        if(op == 1) {
+            int i;
+            Object lista[] = new Object[produtos.size()];
+            for(i = 0; i < produtos.size(); i++) 
+                lista[i] = String.format(produtos.get(i).nome 
+                        + ", " 
+                        + produtos.get(i).localDeCompra 
+                        + " R$ "
+                        + produtos.get(i).getPrecoString());
+
+            int a = JOptionPane.showOptionDialog(null, lista, "Escolha o produto", WIDTH, HEIGHT, null, lista, null);
+            Produto p = produtos.get(a);
+            switch(p.tipo) {
+                case 1:
+                    i = 0;
+                    while(produtos.get(i).tipo == 1)
+                        i++;
+                    produtos.add(i, p);
+                    break;
+                case 2:
+                    i = produtos.size();
+                    while(produtos.get(i).tipo == 3)
+                        i--;
+                    produtos.add(i, p);
+                    break;
+                case 3:
+                    produtos.add(produtos.size(), p);
+                    break;
+            }
+            //Atualiza a tabela
+            atualizarDados();
+        }
+        else {
+            addProduto();
+        }
+    }
+    
+    
+    public void addNovoProduto() {
         /*
          * O seguinte método coleta todas os atributos de um
          * produto que seŕão passados posteriormente para a classe
@@ -73,8 +114,9 @@ public class PrevisaoDaCompra extends Compra {
         UIManager.put("OptionPane.cancelButtonText", "Cancelar");
         UIManager.put("OptionPane.noButtonText", "Não");
         UIManager.put("OptionPane.yesButtonText", "Sim");
+        
+        //Adiciona um produto a lista
         int i;
-        //Adiciona um produto a lista. Se for essencial, vai para o topo, se não for vai para o final
         switch(tipo) {
             case 1:
                 i = 0;
@@ -91,7 +133,7 @@ public class PrevisaoDaCompra extends Compra {
             case 3:
                 produtos.add(produtos.size(), new Produto(nome, unidadeDeCompra, localDeCompra, qnt, preco, tipo));
                 break;
-        }
+            }
         //Atualiza a tabela
         atualizarDados();
     }
@@ -113,7 +155,7 @@ public class PrevisaoDaCompra extends Compra {
             if(preco != 0)
                 valido = true;
         }
-        
-        
     }
-}
+    
+    
+} 

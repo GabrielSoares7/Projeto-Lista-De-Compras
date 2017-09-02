@@ -22,6 +22,7 @@ import listadecompras.Main;
 public class Home extends JFrame {
     //atributos
     ArrayList <Compra> compras = new ArrayList<>(); 
+    PrevisaoDaCompra previsao = new PrevisaoDaCompra();
     public Home() {
         initComponents();
         this.setLocationRelativeTo(null);//por definição no final do método initComponents();
@@ -316,7 +317,9 @@ public class Home extends JFrame {
     }
     
     public void abrirPrevisao() {
-        
+        desktop.add(previsao);
+        previsao.preencherProdutos(compras);
+        previsao.setVisible(true);
     }
     
     public void editarTituloLista() {
