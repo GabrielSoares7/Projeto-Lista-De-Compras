@@ -1,12 +1,23 @@
 package listasdecompras;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 //Elementos da interface gráfica swing
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.LayoutStyle;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -46,45 +57,45 @@ public class Compra extends JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        fundo = new javax.swing.JPanel();
-        lbTitulo = new javax.swing.JLabel();
-        btAdd = new javax.swing.JButton();
-        btDeletar = new javax.swing.JButton();
-        btSalvar = new javax.swing.JButton();
-        btAtualizar = new javax.swing.JButton();
-        Scroll = new javax.swing.JScrollPane();
-        tabela = new javax.swing.JTable();
+        fundo = new JPanel();
+        lbTitulo = new JLabel();
+        btAdd = new JButton();
+        btDeletar = new JButton();
+        btSalvar = new JButton();
+        btAtualizar = new JButton();
+        Scroll = new JScrollPane();
+        tabela = new JTable();
 
         setClosable(true);
 
-        fundo.setBackground(java.awt.Color.white);
+        fundo.setBackground(Color.white);
 
         lbTitulo.setText("Mês: " + mes);
 
-        btAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
-        btAdd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btAdd.setIcon(new ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
+        btAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 addProduto();
             }
         });
 
-        btDeletar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
-        btDeletar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btDeletar.setIcon(new ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
+        btDeletar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 removerProduto();
             }
         });
 
-        btSalvar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgSalvar.png"))); // NOI18N
-        btSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btSalvar.setIcon(new ImageIcon(getClass().getResource("/img/imgSalvar.png"))); // NOI18N
+        btSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 validarAlteracoes();
             }
         });
 
-        btAtualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgAtualizar.png"))); // NOI18N
-        btAtualizar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btAtualizar.setIcon(new ImageIcon(getClass().getResource("/img/imgAtualizar.png"))); // NOI18N
+        btAtualizar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 atualizarDados();
             }
         });
@@ -93,29 +104,29 @@ public class Compra extends JInternalFrame {
         
         Scroll.setViewportView(tabela);
 
-        javax.swing.GroupLayout fundoLayout = new javax.swing.GroupLayout(fundo);
+        GroupLayout fundoLayout = new GroupLayout(fundo);
         fundo.setLayout(fundoLayout);
         fundoLayout.setHorizontalGroup(
-            fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(fundoLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
                 .addComponent(lbTitulo)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btDeletar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btAtualizar)
                 .addContainerGap())
-            .addComponent(Scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+            .addComponent(Scroll, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
         );
         fundoLayout.setVerticalGroup(
-            fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
             .addGroup(fundoLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(fundoLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
                     .addComponent(btAtualizar)
                     .addComponent(btSalvar)
                     .addGroup(fundoLayout.createSequentialGroup()
@@ -123,19 +134,19 @@ public class Compra extends JInternalFrame {
                         .addGap(20, 20, 20))
                     .addComponent(btDeletar)
                     .addComponent(btAdd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Scroll, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Scroll, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(fundo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(fundo, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -318,13 +329,13 @@ public class Compra extends JInternalFrame {
     }
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane Scroll;
-    public javax.swing.JButton btAdd;
-    private javax.swing.JButton btAtualizar;
-    private javax.swing.JButton btDeletar;
-    private javax.swing.JButton btSalvar;
-    public javax.swing.JPanel fundo;
-    private javax.swing.JLabel lbTitulo;
-    private javax.swing.JTable tabela;
+    private JScrollPane Scroll;
+    public JButton btAdd;
+    private JButton btAtualizar;
+    private JButton btDeletar;
+    private JButton btSalvar;
+    public JPanel fundo;
+    private JLabel lbTitulo;
+    private JTable tabela;
     // End of variables declaration//GEN-END:variables
 }
