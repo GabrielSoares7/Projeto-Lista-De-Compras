@@ -4,17 +4,38 @@ import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 
+//Elementos da interface gráfica swing
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
 public class Compra extends JInternalFrame {
+    /* A classe Compra é responsável por gerar cada lista de compra.
+     * Nela temos 3 atributos:
+     * - Um ArrayList de produtos, que torna possvíel adicionar vários produtos em
+     * na classe
+     * - Uma string (mes) que guarda o mês/título da lista
+     * - Um "float" que calcula o preço total da lista.
+     *
+     * A classe também possui os atributos da interface gráfica. Os principais são:
+     * - JButton:
+     *      btAdd -> addProduto();
+     *      btAtualizar -> atualizarDados();
+     *      btDeletar -> removerProduto();
+     *      btSalvar -> validarAlteracoes();
+     * - JTable tabela: mostra todos os produtos e suas informações. O método 
+     * atualizarDados() fica responsável por preencher a tabela.
     
-    ArrayList <Produto> produtos = new ArrayList<>();
+     * É importanter ressaltar que a classe herda características da classe JInternalFrame
+    **/
+    
+    //Atributos
+    ArrayList <Produto> produtos = new ArrayList<>(); 
     String mes;
     float precoTotal;
     
+    //Construtor
     public Compra(String mes) {
         this.mes = mes;
         precoTotal = 0;
@@ -26,7 +47,7 @@ public class Compra extends JInternalFrame {
     private void initComponents() {
 
         fundo = new javax.swing.JPanel();
-        lbMes = new javax.swing.JLabel();
+        lbTitulo = new javax.swing.JLabel();
         btAdd = new javax.swing.JButton();
         btDeletar = new javax.swing.JButton();
         btSalvar = new javax.swing.JButton();
@@ -38,7 +59,7 @@ public class Compra extends JInternalFrame {
 
         fundo.setBackground(java.awt.Color.white);
 
-        lbMes.setText("Mês: " + mes);
+        lbTitulo.setText("Mês: " + mes);
 
         btAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
         btAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -90,7 +111,7 @@ public class Compra extends JInternalFrame {
             fundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(fundoLayout.createSequentialGroup()
                 .addGap(3, 3, 3)
-                .addComponent(lbMes)
+                .addComponent(lbTitulo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -110,7 +131,7 @@ public class Compra extends JInternalFrame {
                     .addComponent(btAtualizar)
                     .addComponent(btSalvar)
                     .addGroup(fundoLayout.createSequentialGroup()
-                        .addComponent(lbMes)
+                        .addComponent(lbTitulo)
                         .addGap(20, 20, 20))
                     .addComponent(btDeletar)
                     .addComponent(btAdd))
@@ -152,9 +173,8 @@ public class Compra extends JInternalFrame {
         /*
          * O seguinte método coleta todas os atributos de um
          * produto que seŕão passados posteriormente para a classe
-         * produto.
+         * produto. Ele é chamado sempre que o botão '+' (btAdd) é selecionado
          */
-        /*    */
         
         //Nas três linhas seguintes, o programa coleta o nome, a unidade de compra e o local de compra do produto
         String nome = JOptionPane.showInputDialog("Digite o nome do produto");
@@ -208,29 +228,38 @@ public class Compra extends JInternalFrame {
     }
     
     public void removerProduto() {
-        String [] a = new String[produtos.size()];
+        /* O método exibe uma lista de produtos, na qual o usuário seleciona 1 para
+         * ser removido. O método é chamado pelo botão 'btDeletar'
+        **/
+        
+        String [] str = new String[produtos.size()];//Cria um vetor de string que será usado na lista
         int i;
         for(i = 0; i < produtos.size(); i++) {
-            a[i] = produtos.get(i).nome;
+            str[i] = produtos.get(i).getNome();
         }
         JComboBox opListas = new JComboBox();
-        opListas.setModel(new DefaultComboBoxModel<>(a));
+        opListas.setModel(new DefaultComboBoxModel<>(str));
         JOptionPane.showMessageDialog(null, opListas, "Selecione a lista: ", JOptionPane.QUESTION_MESSAGE);
+        i = opListas.getSelectedIndex();//Recebe o índice do produto selecionado
         
-        i = opListas.getSelectedIndex();
         int op = JOptionPane.showConfirmDialog(null, String.format("Deseja mesmo deletar o\nproduto '"
-                + produtos.get(i).nome
-                + "'?"));
-        if(op == 0)
-            produtos.remove(i);
-        atualizarDados();
+                + produtos.get(i).getNome()
+                + "'?"));//Verifica se o usuário realmente deseja remover o produto
+        if(op == 0) // Se op for 0, significa que o usuário selecionou a opção 'SIM'
+            produtos.remove(i); // Remove o produto na posicao 1
+        atualizarDados();// Exibe a tabela com as alterações realizadas
     }
 
     public void atualizarDados() {
+        /* O método atualizarDados() é chamado sempre que uma alteração acontece
+         * na lista de produtos ou então quando o botão 'btAtualizar'
+         * é selecionado. Ele (o método) é responsável por atualizar os dados da
+         * tabela, além de calcular o preço total e exibir na JLabel lbTitulo
+        **/
         int i;
         precoTotal = 0;
         String msgFormat;
-        String a[] = new String [6];
+        String a[] = new String [6]; //Titulo da tabela
         a[0] = "Produto";
         a[1] = "Unidade de Compra";
         a[2] = "Local";
@@ -240,79 +269,79 @@ public class Compra extends JInternalFrame {
         
         Object [][] dados = new Object[produtos.size()][6];
         
-        for(i = 0; i < produtos.size(); i++) {
-            dados[i][0] = produtos.get(i).nome;
-            dados[i][1] = produtos.get(i).unidadeDeCompra;
-            dados[i][2] = produtos.get(i).localDeCompra;
+        for(i = 0; i < produtos.size(); i++) { // Conteúdo da tabela
+            dados[i][0] = produtos.get(i).getNome();
+            dados[i][1] = produtos.get(i).getUnidadeDeCompra();
+            dados[i][2] = produtos.get(i).getLocalDeCompra();
             dados[i][3] = produtos.get(i).getQntString();
             dados[i][4] = produtos.get(i).getPrecoString();
             dados[i][5] = produtos.get(i).getTipoString();
             
-            precoTotal += produtos.get(i).preco;
+            precoTotal += (float) produtos.get(i).getPreco() * produtos.get(i).getQnt();
         }
+        tabela.setModel(new DefaultTableModel(dados, a)); // Atualiza os dados da tabela
         
         msgFormat = String.format("Mês: %s  |  Total: R$ %.2f", mes, precoTotal);
-        lbMes.setText(msgFormat);
-        
-        String strLista[] = new String[produtos.size()];
-        for(i = 0; i < produtos.size(); i++) {
-            strLista[i] = String.format("%d - %s", i, produtos.get(i).nome);
-        }
-        
-        tabela.setModel(new DefaultTableModel(dados, a));
+        lbTitulo.setText(msgFormat); //Atualiza o "título" da janela
     }
     
     public void validarAlteracoes() {
+        /* Este método guarda todas as alterões realizadas na tabela no ArrayList
+         * produtos quando o 'btSalvar' é executado
+        **/
         int i;
         int guardarInt = 0;
         float guardarFloat = 0;
         String convert, msg;
         int op = JOptionPane.showConfirmDialog(null, "Deseja mesmo atualizar os dados?\nAs informações anteriores serão perdidas");
+        // Verifica se o usuário realmente deseja guardar as alterações
         if(op == 0) {
             for(i = 0; i < produtos.size(); i++) {
-                //guardando uns dados que serão utilizados posteriormentes
-                guardarInt = produtos.get(i).qnt;
-                guardarFloat = produtos.get(i).preco;
-                    
-                produtos.get(i).nome = tabela.getValueAt(i, 0).toString();
-                produtos.get(i).unidadeDeCompra = tabela.getValueAt(i, 1).toString();
-                produtos.get(i).localDeCompra = tabela.getValueAt(i, 2).toString();
+                // Guardando uns dados que serão utilizados posteriormente caso
+                // o número digtado pelo usuário seja inválido
+                guardarInt = produtos.get(i).getQnt();
+                guardarFloat = produtos.get(i).getPreco();
+                
+                //Guarda as alterações em "nome", "UnidadeDeCompra" e "Local"
+                produtos.get(i).setNome(tabela.getValueAt(i, 0).toString());
+                produtos.get(i).setUnidadeDeCompra(tabela.getValueAt(i, 1).toString());
+                produtos.get(i).setLocalDeCompra(tabela.getValueAt(i, 2).toString());
 
+                // Os tratamentos impedem que o usuário digite um número errado e
+                // prejudique o funcionamento do programa
                 try {
                     if(!produtos.get(i).getQntString().equals(tabela.getValueAt(i, 3).toString())) {
-                        msg = String.format("Deseja alterar a quantidade do produto %s?\nDigite um valor inteiro:", produtos.get(i).nome);
+                        msg = String.format("Deseja alterar a quantidade do produto %s?\nDigite um valor inteiro:", produtos.get(i).getNome());
                         convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 3).toString());
-                        produtos.get(i).alterarQnt(Integer.parseInt(convert));
+                        produtos.get(i).setQnt(Integer.parseInt(convert));
                     }
                 }
                 catch (NumberFormatException erroConv) {
                     JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                    produtos.get(i).qnt = guardarInt;
+                    produtos.get(i).setQnt(guardarInt);
                 }
                 catch (NullPointerException nulo) {
-                    produtos.get(i).qnt = guardarInt;
+                    produtos.get(i).setQnt(guardarInt);
                 }
        
                 try {
-                    if(guardarFloat == produtos.get(i).preco) {
-                        if(!produtos.get(i).getPrecoString().equals(tabela.getValueAt(i, 4).toString())) {
-                            msg = String.format("Deseja alterar o preço do(a) %s?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)", produtos.get(i).nome);
-                            convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 4));
-                            produtos.get(i).preco = Float.parseFloat(convert);
-                        }
+                    if(!produtos.get(i).getPrecoString().equals(tabela.getValueAt(i, 4).toString())) {
+                        msg = String.format("Deseja alterar o preço do(a) %s?\n\nDigite o novo preço.\n\n(Digite apenas pontos e números)", produtos.get(i).getNome());
+                        convert = JOptionPane.showInputDialog(msg, tabela.getValueAt(i, 4));
+                        produtos.get(i).setPreco(Float.parseFloat(convert));
                     }
                 }
                 catch(NumberFormatException erroConv) {
                     JOptionPane.showMessageDialog(null, "O número digitado é inválido");
-                    produtos.get(i).preco = guardarFloat;
+                    produtos.get(i).setPreco(guardarFloat);
                 }
                 catch (NullPointerException nulo) {
-                    produtos.get(i).preco = guardarFloat;
+                    produtos.get(i).setPreco(guardarFloat);
                 }
                         
                     
             }
-            atualizarDados();
+            atualizarDados(); //Exibe as alterações na tabela
         }
     }
         
@@ -323,7 +352,7 @@ public class Compra extends JInternalFrame {
     private javax.swing.JButton btDeletar;
     private javax.swing.JButton btSalvar;
     public javax.swing.JPanel fundo;
-    private javax.swing.JLabel lbMes;
+    private javax.swing.JLabel lbTitulo;
     private javax.swing.JTable tabela;
     // End of variables declaration//GEN-END:variables
 }

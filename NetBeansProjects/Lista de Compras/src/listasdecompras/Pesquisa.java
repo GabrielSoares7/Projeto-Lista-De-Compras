@@ -1,6 +1,8 @@
 package listasdecompras;
 
 import java.util.ArrayList;
+
+//Elmentos swing
 import javax.swing.table.DefaultTableModel;
 
 public class Pesquisa extends javax.swing.JInternalFrame {
@@ -15,8 +17,8 @@ public class Pesquisa extends javax.swing.JInternalFrame {
   
     public Pesquisa(int tipo, ArrayList lista) {
         initComponents();
-        tipoDePesquisa = tipo;
-        listaDeCompras = lista;
+        tipoDePesquisa = tipo;// Recebe o tipo de pesquisa (por nome ou por local)
+        listaDeCompras = lista; // Recebe uma lista com todos os produtos
     }
     
     public void pesquisarNome() {
@@ -26,7 +28,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         int contador = 0;//contar produtos para criar a matriz itens
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).nome.equalsIgnoreCase(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).getNome().contains(pesquisa)) {
                     contador++;
                 }        
             } 
@@ -34,11 +36,11 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         Object itens[][] = new Object[contador][6];
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).nome.equalsIgnoreCase(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).getNome().contains(pesquisa)) {
                     itens[i][0] = listaDeCompras.get(i).mes;
-                    itens[i][1] = listaDeCompras.get(i).produtos.get(j).nome;
-                    itens[i][2] = listaDeCompras.get(i).produtos.get(j).unidadeDeCompra;
-                    itens[i][3] = listaDeCompras.get(i).produtos.get(j).localDeCompra;
+                    itens[i][1] = listaDeCompras.get(i).produtos.get(j).getNome();
+                    itens[i][2] = listaDeCompras.get(i).produtos.get(j).getUnidadeDeCompra();
+                    itens[i][3] = listaDeCompras.get(i).produtos.get(j).getLocalDeCompra();
                     itens[i][4] = listaDeCompras.get(i).produtos.get(j).getQntString();
                     itens[i][5] = listaDeCompras.get(i).produtos.get(j).getPrecoString();
                 }        
@@ -55,20 +57,19 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         int contador = 0;//contar produtos para criar a matriz itens
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.equalsIgnoreCase(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).getLocalDeCompra().contains(pesquisa)) {
                     contador++;
                 }        
             } 
         }
-        Object itens[][] = new Object[contador][6];
-       // Object itens[][] = null;
+        Object itens[][] = new Object[contador][6];//Guarda os dados de produtos que contem os dados da pesquisa
         for(i = 0; i < listaDeCompras.size(); i++) {
             for(j = 0; j < listaDeCompras.get(i).produtos.size(); j++) {
-                if(listaDeCompras.get(i).produtos.get(j).localDeCompra.equalsIgnoreCase(pesquisa)) {
+                if(listaDeCompras.get(i).produtos.get(j).getLocalDeCompra().contains(pesquisa)) {
                     itens[i][0] = listaDeCompras.get(i).mes;
-                    itens[i][1] = listaDeCompras.get(i).produtos.get(j).nome;
-                    itens[i][2] = listaDeCompras.get(i).produtos.get(j).unidadeDeCompra;
-                    itens[i][3] = listaDeCompras.get(i).produtos.get(j).localDeCompra;
+                    itens[i][1] = listaDeCompras.get(i).produtos.get(j).getNome();
+                    itens[i][2] = listaDeCompras.get(i).produtos.get(j).getUnidadeDeCompra();
+                    itens[i][3] = listaDeCompras.get(i).produtos.get(j).getLocalDeCompra();
                     itens[i][4] = listaDeCompras.get(i).produtos.get(j).getQntString();
                     itens[i][5] = listaDeCompras.get(i).produtos.get(j).getPrecoString();
                 }        
@@ -79,6 +80,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
     }
     
     public void atualizarTabela(Object [][] itens) {
+        //Configura as colunas da tabela e recebe os itens das células
         String titulos [] = new String[6];
         titulos[0] = "Lista";
         titulos[1] = "Produto";
@@ -87,9 +89,11 @@ public class Pesquisa extends javax.swing.JInternalFrame {
         titulos[4] = "Quantidade";
         titulos[5] = "Preço";
         
+        //Envia as informações para a JTable
         tabela.setModel(new DefaultTableModel(itens, titulos));
     }
     
+    //Método inicia e configura os ítens da interface gráfica
     @SuppressWarnings("unchecked") 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -182,6 +186,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPesquisaActionPerformed
+        // Executa ação ao clicar no botão Pesquisar
         if(tipoDePesquisa == 1) {
             pesquisarNome();
         }
@@ -189,7 +194,7 @@ public class Pesquisa extends javax.swing.JInternalFrame {
             pesquisarLocal();
     }//GEN-LAST:event_btPesquisaActionPerformed
 
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btPesquisa;
     private javax.swing.JTextField entrada;

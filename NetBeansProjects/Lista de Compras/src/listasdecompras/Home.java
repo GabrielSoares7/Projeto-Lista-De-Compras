@@ -23,9 +23,18 @@ import javax.swing.JComboBox;
 
 
 public class Home extends JFrame {
+    /* A classe Home contem o método main, que faz com que ela seja a primeira 
+     * classe executada. A classe herda os atributos e métodos da classe JFrame
+     * que possibilita a criação de uma janela.
+    **/
+    
     //atributos
-    ArrayList <Compra> compras = new ArrayList<>(); 
-    PrevisaoDaCompra previsao = new PrevisaoDaCompra();
+    ArrayList <Compra> compras = new ArrayList<>(); //Permite que o  usuário
+                                                    //adicione várias listas
+                                                    //de compras
+    PrevisaoDaCompra previsao = new PrevisaoDaCompra(); //Classe da previsao de
+                                                        //compra
+    //Construtor
     public Home() {
         initComponents();
         this.setLocationRelativeTo(null);//por definição no final do método initComponents();
@@ -49,6 +58,7 @@ public class Home extends JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         mArquivo = new javax.swing.JMenu();
         imAdd = new javax.swing.JMenuItem();
+        imCriarLista = new javax.swing.JMenuItem();
         imSobre = new javax.swing.JMenuItem();
         imSair = new javax.swing.JMenuItem();
         mEditar = new javax.swing.JMenu();
@@ -187,6 +197,14 @@ public class Home extends JFrame {
         });
         mArquivo.add(imAdd);
 
+        imCriarLista.setText("Criar lista usando a previsão");
+        imCriarLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                imCriarListaActionPerformed(evt);
+            }
+        });
+        mArquivo.add(imCriarLista);
+
         imSobre.setText("Sobre");
         imSobre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -262,7 +280,7 @@ public class Home extends JFrame {
     }//GEN-LAST:event_imSairActionPerformed
 
     private void btAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAbrirActionPerformed
-        System.out.println(lista.getSelectedIndex());
+
         abrirLista(lista.getSelectedIndex());
     }//GEN-LAST:event_btAbrirActionPerformed
 
@@ -290,8 +308,8 @@ public class Home extends JFrame {
     }//GEN-LAST:event_imPNomeActionPerformed
 
     private void imPLocalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imPLocalActionPerformed
+        Pesquisa p = new Pesquisa(2, compras);
         try {
-            Pesquisa p = new Pesquisa(1, compras);
             desktop.add(p);
             p.setVisible(true);
         }
@@ -307,12 +325,52 @@ public class Home extends JFrame {
     private void btDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDeletarActionPerformed
         deletar();
     }//GEN-LAST:event_btDeletarActionPerformed
+
+    private void imCriarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imCriarListaActionPerformed
+        criarLista();
+    }//GEN-LAST:event_imCriarListaActionPerformed
     
     public void addCompra() {
         String mes = JOptionPane.showInputDialog(null, "Digite o mês da compra: ");
         compras.add(new Compra(mes));
         
         atualizarDados();
+    }
+    
+    public void criarLista() {
+        int i, op;
+        float gastos = 0;
+        String str;
+        int indice = compras.size() - 1;
+        if(indice < 1)
+            indice = 0;
+        
+        if(previsao.produtos.size() > 0) {
+            str = JOptionPane.showInputDialog("Digite o mês da compra:");
+            compras.add(indice, new Compra(str));
+            atualizarDados();
+            for(i = 0; i < previsao.produtos.size(); i++) {
+                str = String.format("Você já gastou R$ "
+                        + gastos
+                        + "\nDeseja comprar o produto abaixo?\n"
+                        + previsao.produtos.get(i).getNome()
+                        + ", R$ " 
+                        + previsao.produtos.get(i).getPreco()
+                        + "Produto "
+                        + previsao.produtos.get(i).getTipoString()
+                        + "\n\n(Conclua a compra clicando em cancelar)");
+                op = JOptionPane.showConfirmDialog(null, str);
+                if(op == 0) {
+                    compras.get(indice).produtos.add(previsao.produtos.get(i));
+                    previsao.precoTotal -= previsao.produtos.get(i).getPreco();
+                    previsao.produtos.remove(i);
+                    previsao.atualizarDados();
+                    compras.get(indice).atualizarDados();
+                }
+                else if(op == 2)
+                    JOptionPane.showMessageDialog(null, "Operação Realizada!\n");
+            }
+        }
     }
     
     public void deletar() {
@@ -456,6 +514,7 @@ public class Home extends JFrame {
     private javax.swing.JLayeredPane desktop;
     private javax.swing.JPanel fundo;
     private javax.swing.JMenuItem imAdd;
+    private javax.swing.JMenuItem imCriarLista;
     private javax.swing.JMenuItem imEdit;
     private javax.swing.JMenuItem imPLocal;
     private javax.swing.JMenuItem imPNome;
