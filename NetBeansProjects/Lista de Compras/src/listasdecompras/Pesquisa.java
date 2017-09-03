@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class Pesquisa extends javax.swing.JInternalFrame {
 
-    ArrayList<Compra> listaDeCompras = new ArrayList<>();
+    ArrayList<Compra> listaDeCompras;
     int tipoDePesquisa;
     /*
      * Se o tipo de pesquisa for '1', então o botão chama o método
