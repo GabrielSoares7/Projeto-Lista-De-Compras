@@ -171,5 +171,4 @@ public class PrevisaoDaCompra extends Compra {
         //Atualiza a tabela
         atualizarDados();
     }
-    
 } 
