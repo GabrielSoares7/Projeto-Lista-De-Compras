@@ -88,21 +88,21 @@ public class Home extends JFrame {
         int i, op;
         float gastos = 0;
         String str;
-        int indice = compras.size() - 1;
-        if(indice < 1)
-            indice = 0;
+        int indice = compras.size();
+
         
         if(previsao.produtos.size() > 0) {
             str = JOptionPane.showInputDialog("Digite o mês da compra:");
             compras.add(indice, new Compra(str));
             atualizarDados();
-            for(i = 0; i < previsao.produtos.size(); i++) {
+            i = 0;
+            while (i == 0) {
                 str = String.format("Você já gastou R$ "
                         + gastos
                         + "\nDeseja comprar o produto abaixo?\n"
                         + previsao.produtos.get(i).getNome()
-                        + ", R$ " 
-                        + previsao.produtos.get(i).getPreco()
+                        + ", " 
+                        + previsao.produtos.get(i).getPrecoString()
                         + "\nProduto "
                         + previsao.produtos.get(i).getTipoString()
                         + "\n\n(Conclua a compra clicando em cancelar)");
@@ -118,7 +118,7 @@ public class Home extends JFrame {
                 else if(op == 2) {
                     JOptionPane.showMessageDialog(null, "Operação Realizada!\n");
                     break;
-                }
+                }                
             }
         }
     }
@@ -244,9 +244,6 @@ public class Home extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-    	//Método contendo as configuraçẽos da interface gráfica
-    	//O método initComponents() é gerado automaticamente quando usa-se o FormEditor
-
         fundo = new JPanel();
         jScrollPane1 = new JScrollPane();
         lista = new JList<>();
@@ -266,9 +263,6 @@ public class Home extends JFrame {
         imSair = new JMenuItem();
         mEditar = new JMenu();
         imEdit = new JMenuItem();
-        mPesquisar = new JMenu();
-        imPNome = new JMenuItem();
-        imPLocal = new JMenuItem();
 
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Lista de Compras");
@@ -281,37 +275,29 @@ public class Home extends JFrame {
         jScrollPane1.setViewportView(lista);
 
         btDeletar.setIcon(new ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
-        btDeletar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                deletar();
-            }
+        btDeletar.addActionListener((ActionEvent evt) -> {
+            deletar();
         });
 
         btAdd.setIcon(new ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
-        btAdd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                addCompra();
-            }
+        btAdd.addActionListener((ActionEvent evt) -> {
+            addCompra();
         });
 
         btPrevisao.setText("Previsão");
-        btPrevisao.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                abrirPrevisao();
-            }
+        btPrevisao.addActionListener((ActionEvent evt) -> {
+            abrirPrevisao();
         });
 
         btAbrir.setText("Abrir");
-        btAbrir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                abrirLista(lista.getSelectedIndex());
-            }
+        btAbrir.addActionListener((ActionEvent evt) -> {
+            abrirLista(lista.getSelectedIndex());
         });
 
         lbImg.setIcon(new ImageIcon(getClass().getResource("/img/imgIFLogo.png"))); // NOI18N
 
         lbInfo.setFont(lbInfo.getFont().deriveFont(lbInfo.getFont().getSize()-1f));
-        lbInfo.setForeground(new Color(152, 152, 152));
+        lbInfo.setForeground(new java.awt.Color(152, 152, 152));
         lbInfo.setText("Recomendamos que você não abra várias janelas ao mesmo tempo");
 
         desktop.setLayer(lbImg, JLayeredPane.DEFAULT_LAYER);
@@ -431,40 +417,6 @@ public class Home extends JFrame {
 
         jMenuBar1.add(mEditar);
 
-        mPesquisar.setText("Pesquisar");
-
-        imPNome.setText("Pesquisar por nome");
-        imPNome.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                Pesquisa p = new Pesquisa(1, compras);
-		        try {
-		            desktop.add(p);
-		            p.setVisible(true);
-		        }
-		        catch (java.lang.IllegalArgumentException a) {
-		            JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
-		        }
-            }
-        });
-        mPesquisar.add(imPNome);
-
-        imPLocal.setText("Pesquisar por local");
-        imPLocal.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                Pesquisa p = new Pesquisa(2, compras);
-		        try {
-		            desktop.add(p);
-		            p.setVisible(true);
-		        }
-		        catch (IllegalArgumentException a) {
-		            JOptionPane.showMessageDialog(null, "Não é possível abrir ítem solicitado\nVerifique se alguma janela já está aberta");
-		        }
-            }
-        });
-        mPesquisar.add(imPLocal);
-
-        jMenuBar1.add(mPesquisar);
-
         setJMenuBar(jMenuBar1);
 
         GroupLayout layout = new GroupLayout(getContentPane());
@@ -479,7 +431,7 @@ public class Home extends JFrame {
         );
 
         pack();
-
+        
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -493,8 +445,6 @@ public class Home extends JFrame {
     private JMenuItem imAdd;
     private JMenuItem imCriarLista;
     private JMenuItem imEdit;
-    private JMenuItem imPLocal;
-    private JMenuItem imPNome;
     private JMenuItem imSair;
     private JMenuItem imSobre;
     private JLabel jLabel1;
@@ -505,6 +455,5 @@ public class Home extends JFrame {
     private JList<String> lista;
     private JMenu mArquivo;
     private JMenu mEditar;
-    private JMenu mPesquisar;
     // End of variables declaration//GEN-END:variables
 }

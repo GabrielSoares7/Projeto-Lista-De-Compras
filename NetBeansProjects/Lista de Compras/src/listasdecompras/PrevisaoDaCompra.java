@@ -50,7 +50,9 @@ public class PrevisaoDaCompra extends Compra {
     public void addProduto() {
         // Exibe uma caixa de diálogo perguntando se o usuário deseja adicionar um
         // produto existente
-        int op = JOptionPane.showConfirmDialog(null, "Deseja adicionar um produto existente");
+        int op = 1;
+        if(p.size() > 0)
+            op = JOptionPane.showConfirmDialog(null, "Deseja adicionar um produto existente");
         // Se op for 0, significa que o usuário selecionou o botão "SIM", se não,
         // significa que o usuário selecionou o botão "NÃO" ou "CANCELAR"
         

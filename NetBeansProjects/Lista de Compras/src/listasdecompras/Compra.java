@@ -53,105 +53,6 @@ public class Compra extends JInternalFrame {
         initComponents();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        fundo = new JPanel();
-        lbTitulo = new JLabel();
-        btAdd = new JButton();
-        btDeletar = new JButton();
-        btSalvar = new JButton();
-        btAtualizar = new JButton();
-        Scroll = new JScrollPane();
-        tabela = new JTable();
-
-        setClosable(true);
-
-        fundo.setBackground(Color.white);
-
-        lbTitulo.setText("Mês: " + mes);
-
-        btAdd.setIcon(new ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
-        btAdd.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                addProduto();
-            }
-        });
-
-        btDeletar.setIcon(new ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
-        btDeletar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                removerProduto();
-            }
-        });
-
-        btSalvar.setIcon(new ImageIcon(getClass().getResource("/img/imgSalvar.png"))); // NOI18N
-        btSalvar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                validarAlteracoes();
-            }
-        });
-
-        btAtualizar.setIcon(new ImageIcon(getClass().getResource("/img/imgAtualizar.png"))); // NOI18N
-        btAtualizar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                atualizarDados();
-            }
-        });
-
-        atualizarDados();
-        
-        Scroll.setViewportView(tabela);
-
-        GroupLayout fundoLayout = new GroupLayout(fundo);
-        fundo.setLayout(fundoLayout);
-        fundoLayout.setHorizontalGroup(
-            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(fundoLayout.createSequentialGroup()
-                .addGap(3, 3, 3)
-                .addComponent(lbTitulo)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btAdd)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btDeletar)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btSalvar)
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btAtualizar)
-                .addContainerGap())
-            .addComponent(Scroll, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
-        );
-        fundoLayout.setVerticalGroup(
-            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addGroup(fundoLayout.createSequentialGroup()
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(fundoLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
-                    .addComponent(btAtualizar)
-                    .addComponent(btSalvar)
-                    .addGroup(fundoLayout.createSequentialGroup()
-                        .addComponent(lbTitulo)
-                        .addGap(20, 20, 20))
-                    .addComponent(btDeletar)
-                    .addComponent(btAdd))
-                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Scroll, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
-        );
-
-        GroupLayout layout = new GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
     public void addProduto() {
         /*
          * O seguinte método coleta todas os atributos de um
@@ -327,6 +228,105 @@ public class Compra extends JInternalFrame {
             atualizarDados(); //Exibe as alterações na tabela
         }
     }
+    
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        fundo = new JPanel();
+        lbTitulo = new JLabel();
+        btAdd = new JButton();
+        btDeletar = new JButton();
+        btSalvar = new JButton();
+        btAtualizar = new JButton();
+        Scroll = new JScrollPane();
+        tabela = new JTable();
+
+        setClosable(true);
+
+        fundo.setBackground(Color.white);
+
+        lbTitulo.setText("Mês: " + mes);
+
+        btAdd.setIcon(new ImageIcon(getClass().getResource("/img/imgAdd.png"))); // NOI18N
+        btAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                addProduto();
+            }
+        });
+
+        btDeletar.setIcon(new ImageIcon(getClass().getResource("/img/imgDeletar.png"))); // NOI18N
+        btDeletar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                removerProduto();
+            }
+        });
+
+        btSalvar.setIcon(new ImageIcon(getClass().getResource("/img/imgSalvar.png"))); // NOI18N
+        btSalvar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                validarAlteracoes();
+            }
+        });
+
+        btAtualizar.setIcon(new ImageIcon(getClass().getResource("/img/imgAtualizar.png"))); // NOI18N
+        btAtualizar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                atualizarDados();
+            }
+        });
+
+        atualizarDados();
+        
+        Scroll.setViewportView(tabela);
+
+        GroupLayout fundoLayout = new GroupLayout(fundo);
+        fundo.setLayout(fundoLayout);
+        fundoLayout.setHorizontalGroup(
+            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(fundoLayout.createSequentialGroup()
+                .addGap(3, 3, 3)
+                .addComponent(lbTitulo)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btAdd)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btDeletar)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btSalvar)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btAtualizar)
+                .addContainerGap())
+            .addComponent(Scroll, GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+        );
+        fundoLayout.setVerticalGroup(
+            fundoLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(fundoLayout.createSequentialGroup()
+                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(fundoLayout.createParallelGroup(GroupLayout.Alignment.TRAILING)
+                    .addComponent(btAtualizar)
+                    .addComponent(btSalvar)
+                    .addGroup(fundoLayout.createSequentialGroup()
+                        .addComponent(lbTitulo)
+                        .addGap(20, 20, 20))
+                    .addComponent(btDeletar)
+                    .addComponent(btAdd))
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Scroll, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
+        );
+
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(fundo, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(fundo, GroupLayout.PREFERRED_SIZE, 307, GroupLayout.PREFERRED_SIZE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
         
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private JScrollPane Scroll;
