@@ -96,7 +96,7 @@ public class Home extends JFrame {
             compras.add(indice, new Compra(str));
             atualizarDados();
             i = 0;
-            while (i == 0) {
+            while (i < previsao.produtos.size()) {
                 str = String.format("Você já gastou R$ "
                         + gastos
                         + "\nDeseja comprar o produto abaixo?\n"
