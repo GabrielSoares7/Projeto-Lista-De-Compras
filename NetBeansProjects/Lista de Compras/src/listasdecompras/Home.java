@@ -118,7 +118,9 @@ public class Home extends JFrame {
                 else if(op == 2) {
                     JOptionPane.showMessageDialog(null, "Operação Realizada!\n");
                     break;
-                }                
+                }         
+                else
+                    i++;
             }
         }
     }
